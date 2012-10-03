@@ -1,0 +1,37 @@
+TODO for Huygen on Speed
+
+Might be abit outdated.
+
+Refactoring:
+	- PaintTool class (move array drawing functions into this class)
+		- Draw line, freehand, circle and squares with random scatterer (for speckle or phantom generation)
+	- Get the name right Huygen's on speed - Huygen on Speed - Huygen' on Speed ???	
+
+Implementation:
+	- Slowmov/fastmov switch (changing simulationTimeStep)
+	- make a source factory class
+	- remove all cuda dependencies from non-GPU-classes
+	- controllers for size of deltaTime
+	- create Array, ArrayElem and PointSource as subclasses of ISource
+	- implement array design tool (look at ultrasim)
+	- change user interface (antTweekBar or Qt)
+	- read config from xml (rapidXml)
+
+Optimalization:
+	- optimize memory transfer (remove bottleneck -> high number of sources (Field II approche?))
+	- for directive elements, generate point sources on the GPU to reduce memory transfers (only transfer center-points)
+	- rintf (fast float to int conversion)	
+	- test instruction load vs memory load (e.g. comment out sin/cos instructions)
+	- 1. or 2. order approximation of sin and cos
+
+Done:
+(insert newly finished tasks at the top)
+- PaintTool class
+- CPU-implementation
+- Simulator class
+- Observation(Space) in its own h/cpp file
+- connect to matlab (maybe ultrasim)
+- scripting interface (matlab/python)
+- cpu implementation
+	- DisplayResponse must be made undependent of memory type (cuComplex, CPU vs GPU memory)
+- implement use of const and shared vs global memory (shared might benefit from broadcasting feature)

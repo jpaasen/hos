@@ -1,4 +1,6 @@
 hos
 ===
 
-GPU-based Ultrasound field simulator with interactive user interface
+GPU-based ultrasound field simulator with interactive user interface.
+
+Released under the GPL license.
