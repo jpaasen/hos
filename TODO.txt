@@ -2,10 +2,14 @@ TODO for Huygen on Speed
 
 Might be abit outdated.
 
+Build:
+	- set up make/cmake for building project on linux/mac
+        - improve folder layout
+
 Refactoring:
 	- PaintTool class (move array drawing functions into this class)
 		- Draw line, freehand, circle and squares with random scatterer (for speckle or phantom generation)
-	- Get the name right Huygen's on speed - Huygen on Speed - Huygen' on Speed ???	
+	- Get the name right Huygen's on speed - Huygens' on Speed - Huygen on Speed ???	
 
 Implementation:
 	- Slowmov/fastmov switch (changing simulationTimeStep)
@@ -14,7 +18,7 @@ Implementation:
 	- controllers for size of deltaTime
 	- create Array, ArrayElem and PointSource as subclasses of ISource
 	- implement array design tool (look at ultrasim)
-	- change user interface (antTweekBar or Qt)
+	- change user interface (antTweekBar or Qt) (Let us make PhotoShop for arrays - ArrayShop)
 	- read config from xml (rapidXml)
 
 Optimalization:
