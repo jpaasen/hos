@@ -1,3 +1,4 @@
+#include "cuda.h"
 #include "DisplayResponse.h"
 
 #include "DisplayKernel.cu"
@@ -90,9 +91,14 @@ void DisplayResponse::mapResponseToDisplay(const cuComplex* result, const uint o
 	cublasDestroy(handle);
 
 	// copy max value to constant memory (defined in DisplayKernel.cu)
-	cuUtilsSafeCall( cudaMemcpyToSymbol("maxValue", &abs_buffer[maxValIdx], sizeof(float), 0, cudaMemcpyDeviceToDevice) );
-	cuUtilsSafeCall( cudaMemcpyToSymbol("minValue", &abs_buffer[minValIdx], sizeof(float), 0, cudaMemcpyDeviceToDevice) );
-
+#if CUDA_VERSION == 5000
+   cuUtilsSafeCall( cudaMemcpyToSymbol(maxValue, &abs_buffer[maxValIdx], sizeof(float), 0, cudaMemcpyDeviceToDevice) );
+   cuUtilsSafeCall( cudaMemcpyToSymbol(minValue, &abs_buffer[minValIdx], sizeof(float), 0, cudaMemcpyDeviceToDevice) );
+#else
+   cuUtilsSafeCall( cudaMemcpyToSymbol("maxValue", &abs_buffer[maxValIdx], sizeof(float), 0, cudaMemcpyDeviceToDevice) );
+   cuUtilsSafeCall( cudaMemcpyToSymbol("minValue", &abs_buffer[minValIdx], sizeof(float), 0, cudaMemcpyDeviceToDevice) );
+#endif
+   
 	if (!resultOnGPU) {
 		cuUtilsSafeCall( cudaFree(result2) );
 	}
