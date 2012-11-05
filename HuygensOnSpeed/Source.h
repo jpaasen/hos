@@ -8,6 +8,7 @@
 **/
 #pragma once
 
+#include "stdlib.h"
 #include "Defines.h"
 #include "Coordinate.h"
 

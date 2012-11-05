@@ -3,7 +3,9 @@
 
 #define timestamp float
 
-#define uint unsigned int
+// #ifndef uint
+// #define uint unsigned int
+// #endif
 
 #define PI (3.1415926535897932384626433832795f)
 

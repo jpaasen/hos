@@ -122,7 +122,7 @@ public:
 
 	std::vector<float> cosineWindow(int n);
 
-	std::vector<float> PaintTool::uniformWindow(int n);
+	std::vector<float> uniformWindow(int n);
 
 	// update function
 	void decreaseLambdaFrac() 

@@ -161,7 +161,7 @@ public:
 		totalNumberOfPointSources += n;
 	}
 
-	void updateSourceFrequencies(float& const f);
+	void updateSourceFrequencies(const float& f);
 
 	// slow mov / fast mov
 	// adjust timestep
@@ -182,7 +182,7 @@ public:
 
 		for (uint i = 0; i < sourceList.size(); i++)
 		{
-			std::vector<Coordinate<float>>* sourceCoord = sourceList[i]->getCoord();
+			std::vector<Coordinate<float> >* sourceCoord = sourceList[i]->getCoord();
 
 			for (uint j = 0; j < sourceCoord->size(); j++)
 			{
@@ -357,7 +357,7 @@ public:
 
 		for (unsigned int i = 0; i < sourceList.size(); i++) 
 		{
-			std::vector<Coordinate<float>>* srcCoord	= sourceList[i]->getCoord();
+			std::vector<Coordinate<float> >* srcCoord	= sourceList[i]->getCoord();
 			std::vector<float>* srcTimeStamp = sourceList[i]->getTimeStamp();
 				
 			for (uint j = 0; j < srcCoord->size(); j++)

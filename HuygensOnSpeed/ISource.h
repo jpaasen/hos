@@ -8,6 +8,7 @@
 **/
 #pragma once
 
+#include "stdlib.h"
 #include "Defines.h"
 #include "Coordinate.h"
 
@@ -22,7 +23,7 @@ public:
 
 	virtual ~ISource() {};
 
-	virtual std::vector<Coordinate<T>>* getCoord() = 0;
+	virtual std::vector<Coordinate<T> >* getCoord() = 0;
 
 	virtual std::vector<T>* getFreq() = 0;
 	virtual void setFreq(std::vector<T> &freq) = 0; // (*)
