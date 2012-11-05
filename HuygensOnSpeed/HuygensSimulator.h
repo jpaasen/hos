@@ -203,7 +203,7 @@ public:
 	{
 		float* freqList = (float*) malloc(sizeof(float)*totalNumberOfPointSources);
 
-		uint n = sourceList.size();
+		uint n = (uint) sourceList.size();
 		uint k = 0;
 
 		for (uint i = 0; i < n; i++)
@@ -228,7 +228,7 @@ public:
 	{
 		float* apodList = (float*) malloc(sizeof(float)*totalNumberOfPointSources);
 
-		uint n = sourceList.size();
+		uint n = (uint) sourceList.size();
 		uint k = 0;
 
 		for (uint i = 0; i < n; i++)
@@ -252,7 +252,7 @@ public:
 	{
 		float* timeDelayList = (float*) malloc(sizeof(float)*totalNumberOfPointSources);
 
-		uint n = sourceList.size();
+		uint n = (uint) sourceList.size();
 		uint k = 0;
 
 		for (uint i = 0; i < n; i++)
@@ -275,7 +275,7 @@ public:
 	{
 		float* timeStampList = (float*) malloc(sizeof(float)*totalNumberOfPointSources);
 
-		uint n = sourceList.size();
+		uint n = (uint) sourceList.size();
 		uint k = 0;
 
 		for (uint i = 0; i < n; i++)
@@ -297,7 +297,7 @@ public:
 	{
 		uint* pulsLengthList = (uint*) malloc(sizeof(uint)*totalNumberOfPointSources);
 
-		uint n = sourceList.size();
+		uint n = (uint) sourceList.size();
 		uint k = 0;
 
 		for (uint i = 0; i < n; i++)

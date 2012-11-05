@@ -59,7 +59,7 @@ void HuygensSimulator::calcSimulation(ObservationArea *obsArea)
 		huygen->calcFieldResponse(
 			observationSpace->getResMem(),
 			observationSpace->numelObsPoints(), observationSpace->getObsPoints(),
-			sourceList.size(), coordSrc, 
+			(uint)sourceList.size(), coordSrc, 
 			fSrc, apodSrc, steerFocusDelaySrc, srcTimeStamp, srcPulseLength,
 			this->currentTime, this->currentTime, 
 			observationSpace->getSpeedOfSound(), observationSpace->resultIsOnGPU());

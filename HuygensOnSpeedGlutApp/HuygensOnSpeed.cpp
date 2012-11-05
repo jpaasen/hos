@@ -4,6 +4,10 @@
 
 #include "HuygensOnSpeed.h"
 
+#ifdef WIN32 
+#define snprintf sprintf_s
+#endif
+
 void makeNewObservationSpace() // move to the simulator class
 {
 	// TODO: make a copy constructor in ObservationSpace
