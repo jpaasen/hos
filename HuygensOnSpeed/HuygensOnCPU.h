@@ -9,6 +9,7 @@
 #pragma once
 
 #include <stdlib.h>
+#include <string.h>
 #include <cuda_runtime.h>
 #include <vector_functions.h>
 #include <cmath>

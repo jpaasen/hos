@@ -40,7 +40,7 @@ public:
 	PointSource(Coordinate<float> c, float f, float a, float t, float pL, float ts) 
 		: coord(c), freq(f), apodize(a), timeDelay(t), pulseLength(pL), timeStamp(ts) {}
 
-	std::vector<Coordinate<float>>* getCoord();
+	std::vector<Coordinate<float> >* getCoord();
 
 	std::vector<float>* getFreq();
 	void setFreq(std::vector<float> &freq);

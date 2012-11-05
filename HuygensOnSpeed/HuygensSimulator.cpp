@@ -76,7 +76,7 @@ void HuygensSimulator::calcSimulation(ObservationArea *obsArea)
 	}
 }
 
-void HuygensSimulator::updateSourceFrequencies(float& const f)
+void HuygensSimulator::updateSourceFrequencies(const float& f)
 {
 
 	size_t s = sourceList.size();

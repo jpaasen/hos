@@ -9,9 +9,9 @@ PointSource::~PointSource(void)
 }
 
 
-std::vector<Coordinate<float>>* PointSource::getCoord() 
+std::vector<Coordinate<float> >* PointSource::getCoord() 
 {
-	return makeVectorWithElem<Coordinate<float>>(coord);
+	return makeVectorWithElem<Coordinate<float> >(coord);
 }
 
 std::vector<float>* PointSource::getFreq() 

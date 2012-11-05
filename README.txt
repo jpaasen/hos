@@ -27,3 +27,13 @@ See own Readme file in sub folder.
 
 Best regards
 Jon Petter Åsen - jon.p.asen@ntnu.no
+
+###############
+# CMAKE BUILD #
+###############
+
+1. Create "build" folder
+2. Enter build folder and type:
+   >> cmake ..
+3. Then make the project with:
+   >> make

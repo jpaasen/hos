@@ -58,7 +58,7 @@ void printHelpMenu()
 void updateWindowTitle()
 {
 	//char* title = new char[256];
-	sprintf_s(title, 512, 
+	snprintf(title, 512, 
 		"%s [%s] |%.2f us| |%.0f dB| |%d #src| |%.1f MHz %.1f mm| |%s| |%dK #obs| |%.1fx%.1f mm| |%.1f #/mm| |%5.1f fps|", 
 		applicationTitle, 
 		simulator->isInPlay()? "|>" : "||",
@@ -493,7 +493,7 @@ void initGL(int argc, char **argv)
 {	
 }
 
-void main(int argc, char** argv) 
+int main(int argc, char** argv) 
 {
 	initApplication( argc, argv );
 
@@ -529,4 +529,5 @@ void main(int argc, char** argv)
 		glutMainLoop();
 
 	}
+	return 0;
 }
