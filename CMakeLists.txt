@@ -6,10 +6,11 @@ find_package(CUDA)
 find_package(GLUT)
 find_package(GLEW)
 
-get_cmake_property(_variableNames VARIABLES)
-foreach (_variableName ${_variableNames})
-message(STATUS "${_variableName}=${${_variableName}}")
-endforeach()
+# Uncomment to see cmake variables
+#get_cmake_property(_variableNames VARIABLES)
+#foreach (_variableName ${_variableNames})
+#message(STATUS "${_variableName}=${${_variableName}}")
+#endforeach()
 
 link_directories(${CUDA_LIBRARIES})
 # message(${GLEW_LIBRARIES})
