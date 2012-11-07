@@ -54,6 +54,8 @@ __global__ void DisplayKernel(uint* pbo, const uint w, const uint h, const float
 
 		//			 alpha			   blue			  green		  red
 		pbo[index] = 0xff000000 | (color << 16) | (color << 8) | color;
+      //pbo[index] = 0xff000000 | (0 << 16) | (0 << 8) | color;
+      //pbo[index] = 0xff000000 | (0 << 16) | (color << 8) | 0;
 	}
 }
 
