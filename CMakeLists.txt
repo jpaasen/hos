@@ -27,6 +27,11 @@ if ( WIN32 )
       link_directories( ${CUDA_TOOLKIT_ROOT_DIR}/lib/Win32 )
       link_directories( ${CUDA_SDK_ROOT_DIR}/common/lib/Win32 )
    endif ()
+   set(CUDA_NVCC_FLAGS "-use_fast_math")
+   #set(CUDA_NVCC_FLAGS "-G0")
+else()
+   set(CUDA_NVCC_FLAGS "-use_fast_math")
+   #set(CUDA_NVCC_FLAGS "-G") # for debugging gpu kernels 
 endif ()
 
 add_subdirectory( HuygensOnSpeed )
