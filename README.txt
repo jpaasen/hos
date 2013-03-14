@@ -31,6 +31,21 @@ Or short: cmake .. ; make ; ./HuygensOnSpeedGlutApp/HuygensOnSpeedApp
 (Solution file can also be generated using cmake)
 
 
+#########
+# Linux #
+#########
+Remember to have libGL, libGlew and libglut in lib/linker path.
+To grap glew use: sudo apt-get install libglew1.6-dev
+The other two, one usually install together with CUDA. 
+
+
+###########
+# Windows #
+###########
+Build with attached visual studio 2008 solution file. Or generate a new one (for vs2010 etc.) using cmake.
+Project dependencies (libs) are found in the CUDA Toolkit and SDK in both cases.
+
+
 #############
 # Projects: #
 #############
@@ -63,11 +78,9 @@ Or short: cmake .. ; make ; ./HuygensOnSpeedGlutApp/HuygensOnSpeedApp
 
  Build instructions
   See own Readme file in sub folder.
+  Building mex-interface has only been tested on windows 7 64bit.
 
-#########
-# Linux #
-#########
-Remember to have libGL, libGlew and libglut in lib/linker path.
+
 
 Best regards
 Jon Petter Åsen - jon.p.asen@ntnu.no
