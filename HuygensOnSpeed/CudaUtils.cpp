@@ -1,11 +1,14 @@
 #include "CudaUtils.h"
 
 #include <climits>
+#include <stdexcept>
+#include <string>
 
 void cuUtilsSafeCall(cudaError err)
 {
 	if (err != cudaSuccess) {
 		fprintf(stderr, "%s\n", cudaGetErrorString(err));
+      throw std::runtime_error(std::string("CUDA ERROR: ") + cudaGetErrorString(err));
 	}
 }
 

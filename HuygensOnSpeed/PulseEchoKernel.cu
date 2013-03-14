@@ -59,7 +59,7 @@ __global__ void PulseEchoKernel(float* resp,
 			float distTx = absf(subf(scat, tx));
 
 			float tStFo			= steerFocusDelaySrc[n];	
-			float timestampSrc	= srcTimeStamp[n];								
+			float timestampSrc   = srcTimeStamp[n];								
 			float apod			= apodSrc[n];
 
 			float totalDist    = distRx + distTx;
