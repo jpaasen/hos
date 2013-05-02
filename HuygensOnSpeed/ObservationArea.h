@@ -10,9 +10,11 @@
 
 #include "Defines.h"
 #include "Coordinate.h"
-//#include "CudaIncludes.h"
-#include "CudaUtils.h"
-#include <cuComplex.h>
+#include "HuygensCuComplex.h"
+
+#if defined(DISP_WITH_CUDA)
+   #include "CudaUtils.h"
+#endif
 
 #include <stdlib.h>
 #include <math.h>

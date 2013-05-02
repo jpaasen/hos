@@ -19,7 +19,7 @@
 #include <vector>
 #include <time.h>
 
-#include <cuComplex.h>
+#include "HuygensCuComplex.h"
 
 class HuygensSimulator 
 {

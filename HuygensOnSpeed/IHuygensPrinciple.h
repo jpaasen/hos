@@ -9,7 +9,7 @@
 #pragma once
 
 #include "Defines.h"
-#include "cuComplex.h"
+#include "HuygensCuComplex.h"
 #include "ObservationArea.h"
 #include "ISource.h"
 

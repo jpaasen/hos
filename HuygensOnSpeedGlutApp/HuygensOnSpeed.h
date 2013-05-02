@@ -8,9 +8,14 @@
 **/
 #pragma once
 
-// We use the GPU version of the Huygens principle calculator.
-#define CALC_ON_GPU
-//#define CALC_ON_CPU
+// Moved to cmake
+//#define CALC_WITH_CUDA
+//#define CALC_WITH_CPU
+//#define CALC_WITH_OPENCL
+
+//#define DISP_WITH_CUDA
+//#define DISP_WITH_CPU
+//#define DISP_WITH_OPENCL
 
 #ifdef _WIN32
 #  include <windows.h>
@@ -29,15 +34,13 @@
 
 #include "GlutCallbackFunctions.h"
 
-#include "../HuygensOnSpeed/HuygensOnGPU.h"
-#include "../HuygensOnSpeed/HuygensOnCPU.h"
-#include "../HuygensOnSpeed/DisplayResponse.h"
-#include "../HuygensOnSpeed/PaintTool.h"
-#include "../HuygensOnSpeed/HuygensSimulator.h"
+#include "../HuygensOnSpeed/IDisplayResponse.h"
+#include "../HuygensOnSpeed/IHuygensPrinciple.h"
 #include "../HuygensOnSpeed/Coordinate.h"
 #include "../HuygensOnSpeed/Dimension.h"
-#include "../HuygensOnSpeed/Source.h"
 #include "../HuygensOnSpeed/ObservationArea.h"
+#include "../HuygensOnSpeed/PaintTool.h"
+#include "../HuygensOnSpeed/HuygensSimulator.h"
 
 // std libs
 #include <stdlib.h>
@@ -97,6 +100,6 @@ void updateWindowTitle();
 
 //#define ADD_PROFILER_ARRAY
 #ifdef ADD_PROFILER_ARRAY
-int numberOfArrays = 20;
+int numberOfArrays = 1;//20;
 int numberOfArraysAdded = 0;
 #endif

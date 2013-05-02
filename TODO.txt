@@ -1,9 +1,8 @@
 TODO for Huygen on Speed
 
-Might be abit outdated.
+Might be a bit outdated.
 
 Build:
-	- set up make/cmake for building project on linux/mac
         - improve folder layout
 
 Refactoring:
@@ -14,15 +13,14 @@ Refactoring:
 Implementation:
 	- Slowmov/fastmov switch (changing simulationTimeStep)
 	- make a source factory class
-	- remove all cuda dependencies from non-GPU-classes
 	- controllers for size of deltaTime
 	- create Array, ArrayElem and PointSource as subclasses of ISource
 	- implement array design tool (look at ultrasim)
-	- change user interface (antTweekBar or Qt) (Let us make PhotoShop for arrays - ArrayShop)
+	- change user interface (antTweekBar or Qt) (Let us make PhotoShop for arrays - ArrayShop?)
 	- read config from xml (rapidXml)
 
 Optimalization:
-	- optimize memory transfer (remove bottleneck -> high number of sources (Field II approche?))
+	- optimize memory transfer (remove bottleneck -> high number of sources (Field II approach?))
 	- for directive elements, generate point sources on the GPU to reduce memory transfers (only transfer center-points)
 	- rintf (fast float to int conversion)	
 	- test instruction load vs memory load (e.g. comment out sin/cos instructions)
@@ -30,6 +28,8 @@ Optimalization:
 
 Done:
 (insert newly finished tasks at the top)
+- remove all cuda dependencies from non-GPU-classes
+- set up make/cmake for building project on linux/mac
 - PaintTool class
 - CPU-implementation
 - Simulator class

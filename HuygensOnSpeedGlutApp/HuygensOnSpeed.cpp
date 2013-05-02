@@ -4,6 +4,27 @@
 
 #include "HuygensOnSpeed.h"
 
+#ifdef CALC_WITH_CUDA
+#include "../HuygensOnSpeed/HuygensOnGPU.h"
+#endif
+#ifdef DISP_WITH_CUDA
+#include "../HuygensOnSpeed/DisplayResponse.h"
+#endif
+
+#ifdef CALC_WITH_CPU
+#include "../HuygensOnSpeed/HuygensOnCPU.h"
+#endif
+#ifdef DISP_WITH_CPU
+#include "../HuygensOnSpeed/DisplayResponseCPU.h"
+#endif
+
+#ifdef CALC_WITH_OPENCL
+#endif
+#ifdef DISP_WITH_OPENCL
+#endif
+
+//#include "../HuygensOnSpeed/Source.h"
+
 #ifdef WIN32 
 #define snprintf sprintf_s
 #endif
@@ -404,15 +425,23 @@ void initApplication(int argc, char **argv)
 			cardiac  = false;
 		} 
 	}
-	if (vascular) {
-		dispResp = new DisplayResponse(Dimension<int>(640,640));
-	} else { // standard -> cardiac
-		dispResp = new DisplayResponse(Dimension<int>(800,250));//640,320));
-	}
 
-#ifdef CALC_ON_GPU
+   Dimension<int> dim(0,0);
+   if (vascular) {
+      dim = Dimension<int>(640,640);
+   } else {
+      dim = Dimension<int>(800,250);
+   }
+
+#if defined(DISP_WITH_CUDA)
+   dispResp = new DisplayResponse(dim);
+#elif defined(DISP_WITH_CPU)
+   dispResp = new DisplayResponseCPU(dim);
+#endif
+
+#if defined(CALC_WITH_CUDA)
 	huygen = new HuygensOnGPU();
-#else
+#elif defined(CALC_WITH_CPU)
 	huygen = new HuygensOnCPU();
 #endif
 
@@ -453,7 +482,12 @@ void initObservationSpace()
 	}
 
 	float speedOfSound = 1540;		// m/s
+#ifdef CALC_WITH_CUDA
 	bool resultOnGPU = true;
+#endif
+#ifdef CALC_WITH_CPU
+	bool resultOnGPU = false;
+#endif
 
 	observationSpace = new ObservationArea(dim, minLim, maxLim, samplesPerMeter, speedOfSound, resultOnGPU);
 }
@@ -461,10 +495,12 @@ void initObservationSpace()
 void initCUDA(int argc, char **argv) 
 {
 	int dev = 1;
+#ifdef CALC_ON_GPU
 	cuUtilsSafeCall( cudaGetDeviceCount(&dev) );
 	cuUtilsSafeCall( cudaSetDevice(dev-1) );
 	//cuUtilsSafeCall( cudaDeviceReset() );
 	cuUtilsSafeCall( cudaGLSetGLDevice(dev-1) ); // pick the first GPU to link with openGL context of this thread
+#endif
 }
 
 void initGLUT(int argc, char **argv)

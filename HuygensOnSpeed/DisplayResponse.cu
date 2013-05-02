@@ -11,7 +11,7 @@
 **/
 
 // Constructor
-DisplayResponse::DisplayResponse(Dimension<int> dim, float dynamRange, bool envelope) : dispDim(dim), dynamicRange(dynamRange), envelope(envelope) 
+DisplayResponse::DisplayResponse(Dimension<int> dim, float dynamRange, bool envelope) : IDisplayResponse::IDisplayResponse(dim, dynamRange, envelope) 
 {
 	pbo = 0;
 }
@@ -186,7 +186,7 @@ GLuint DisplayResponse::createPBO()
 
 	// create pixel buffer object for display
 	GLsizeiptr memSize = numOfPixels() * sizeof(GLubyte) * 4;
-    glGenBuffersARB(1, &pbo);
+   glGenBuffersARB(1, &pbo);
 	glBindBufferARB(GL_PIXEL_UNPACK_BUFFER_ARB, pbo);
 	glBufferDataARB(GL_PIXEL_UNPACK_BUFFER_ARB, memSize, 0, GL_STREAM_DRAW_ARB);
 	//glBindBufferARB(GL_PIXEL_UNPACK_BUFFER_ARB, 0);
@@ -206,38 +206,5 @@ void DisplayResponse::deletePBO()
 	cuUtilsSafeCall( cudaGLUnregisterBufferObject(pbo) );    
 	glDeleteBuffersARB(1, &pbo);
 	pbo = 0;
-}
-
-void DisplayResponse::setDispDim(Dimension<int> dim)
-{
-	dispDim = dim;
-	createPBO();
-}
-
-Dimension<int> DisplayResponse::getDispDim()
-{
-	return dispDim;
-}
-
-int DisplayResponse::getWidth()
-{
-	return dispDim.w;
-}
-
-void DisplayResponse::setWidth(int w)
-{
-	dispDim.w = w; 
-	createPBO();
-}
-	
-int DisplayResponse::getHeight()
-{
-	return dispDim.h;
-}
-
-void DisplayResponse::setHeight(int h)
-{
-	dispDim.h = h;
-	createPBO();
 }
 

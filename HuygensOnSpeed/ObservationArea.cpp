@@ -137,7 +137,9 @@ void ObservationArea::deleteResMem()
 	if (d_res)
 	{
 		if (resultOnGPU) {
+#if defined(DISP_WITH_CUDA)
 			cudaFree(d_res);
+#endif
 		} else {
 			free(d_res);
 		}
@@ -151,7 +153,9 @@ void ObservationArea::createResMem()
 		deleteResMem();
 	}
 	if (resultOnGPU) {
+#if defined(DISP_WITH_CUDA)
 		cuUtilsSafeCall( cudaMalloc<cuComplex>(&d_res, sizeof(cuComplex)*numelObsPoints()) );
+#endif
 	} else {
 		d_res = (cuComplex*) malloc(sizeof(cuComplex)*numelObsPoints());
 	}

@@ -10,8 +10,6 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include <cuda_runtime.h>
-#include <vector_functions.h>
 #include <cmath>
 #include "IHuygensPrinciple.h"
 
@@ -37,23 +35,4 @@ public:
 		ObservationArea* obsArea,
 		std::vector<ISource<float>*> &src,
 		const float timestampObs);
-
-	// Helper function for calculating length of vector
-	float absf(float3 a)
-	{ 
-		return sqrtf(a.x*a.x + a.y*a.y + a.z*a.z);
-	}
-
-	// Helper function for subtracting two vectors
-	float3 subf(float3 a, float3 b)
-	{
-		return ::make_float3(a.x - b.x, a.y - b.y, a.z - b.z);
-	}
-
-	// extract float3 from float array with stridded access of w
-	float3 make_float3(const float* a, int &xIdx, const int w)
-	{
-		//	     			 xIdx	   yIdx		   zIdx
-		return ::make_float3(a[xIdx], a[xIdx+w], a[xIdx+2*w]);
-	}
 };

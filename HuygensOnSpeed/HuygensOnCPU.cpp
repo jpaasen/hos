@@ -1,5 +1,36 @@
 #include "HuygensOnCPU.h"
 
+#if defined(DISP_WITH_CUDA)
+   #include <cuda_runtime.h>
+   #include <vector_functions.h>
+#else
+   struct float3 {
+      float x, y, z;
+   };
+
+   float3 make_float3(float a, float b, float c) {
+      float3 s;
+      s.x = a; s.y = b; s.z = c;
+      return s;
+   }
+#endif
+
+// Helper function for calculating length of vector
+float absf(float3 a) { 
+   return sqrtf(a.x*a.x + a.y*a.y + a.z*a.z);
+}
+
+// Helper function for subtracting two vectors
+float3 subf(float3 a, float3 b) {
+   return ::make_float3(a.x - b.x, a.y - b.y, a.z - b.z);
+}
+
+   // extract float3 from float array with stridded access of w
+float3 make_float3(const float* a, int &xIdx, const int w) {
+         //	     			 xIdx	   yIdx		   zIdx
+   return ::make_float3(a[xIdx], a[xIdx+w], a[xIdx+2*w]);
+}
+
 HuygensOnCPU::HuygensOnCPU(void)
 {
 }
@@ -47,10 +78,6 @@ void HuygensOnCPU::calcFieldResponse(cuComplex *d_res,
 			// loop over all source points
 			for (int n = 0; n < nSrc; n++) 
 			{
-				// Optimalization plans:
-				// all threads will read this value! TODO: Check if this value gets broadcasted. Info: Broadcasting only works for shared memory!
-				// If not -> TODO: Delegate one read into shared memory to each thread. If nSrc > blockDim.x, deligate multiple reads to each thread.
-				// For CUDA 2.0: Shared memory == User-managed L2 cache. Broadcasting might however help improving the memory throughput.
 				float3 src = make_float3(coordSrc, n, nSrc);  
 
 				// fetch steer-focus delay, src timestamp, frequency and pulse length from global memory
@@ -135,7 +162,9 @@ void HuygensOnCPU::calcFieldResponse(cuComplex *d_res,
 
 	// copy calculated field to the GPU for presentation
 	if (resultOnGPU) {
+#if defined(DISP_WITH_CUDA)
 		cudaMemcpy(d_res, resp, sizeof(cuComplex)*nObs, cudaMemcpyHostToDevice);
+#endif
 	} else {
 		memcpy(d_res, resp, sizeof(cuComplex)*nObs);
 	}
