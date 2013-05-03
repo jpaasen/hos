@@ -50,7 +50,7 @@ __global__ void DisplayKernel(unsigned int* pbo, const unsigned int w, const uns
 		if (t > 1.0f) t = 1.0f;
 		if (t < 0.0f) t = 0.0f;
 
-		const unsigned int color = (unsigned int((1.0f - t)*colorLow) + unsigned int(t*colorHigh));
+		const unsigned int color = ((unsigned int)((1.0f - t)*colorLow) + (unsigned int)(t*colorHigh));
 
 		//			 alpha			   blue			  green		  red
 		pbo[index] = 0xff000000 | (color << 16) | (color << 8) | color;
