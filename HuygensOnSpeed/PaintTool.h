@@ -8,7 +8,6 @@
 **/
 #pragma once
 
-#include "Source.h"
 #include "Coordinate.h"
 #include "ISource.h"
 #include "PointSource.h"
@@ -98,7 +97,7 @@ public:
 		);
 
 	static Coordinate<float> makeAndAddDirectiveElemsAlongLine(
-																std::vector<Source*> &sourceList, 
+																std::vector<ISource<float>*>* &sourceList, 
 																Coordinate<float> startPoint, 
 																Coordinate<float> endPoint, 
 																float freq, 

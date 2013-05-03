@@ -76,7 +76,7 @@ uint PaintTool::makeAndAddSourcesAlongLine(
 * arrayNormal = array surface normal (not used, method uses start - endPoint as array cross-surface direction)
 **/
 Coordinate<float> PaintTool::makeAndAddDirectiveElemsAlongLine(
-	std::vector<Source*> &sourceList, 
+	std::vector<ISource<float>*>* &sourceList, 
 	Coordinate<float> startPoint, 
 	Coordinate<float> endPoint, 
 	float freq, float spaceFrac, float speedOfSound, 
@@ -103,7 +103,7 @@ Coordinate<float> PaintTool::makeAndAddDirectiveElemsAlongLine(
 				// TODO: Add source points in azimuth and elevation inside lambdaSpacing + kerf 
 
 				Coordinate<float> point(startPoint.x+dir.x*inc*i, startPoint.y+dir.y*inc*i, startPoint.z+dir.z*inc*i);
-				sourceList.push_back(new Source(point, freq, apod, timeDelay, pulseLength, timeStmp));
+				sourceList->push_back(new PointSource(point, freq, apod, timeDelay, pulseLength, timeStmp));
 			}
 
 			printf("[%.0f ms] Created a %.1f cm, %d (%dx%d) element ULA with %.1f*lambda spacing\n", timeStmp*1e6f, length*100, n, width, hight, spaceFrac);
@@ -112,8 +112,8 @@ Coordinate<float> PaintTool::makeAndAddDirectiveElemsAlongLine(
 		printf("Warning: lambda spacing is too small (%.1f) \n", spaceFrac);
 	}
 
-	if (sourceList.size() > 0) {
-		return sourceList[sourceList.size() - 1]->coord;
+	if (sourceList->size() > 0) {
+      //return sourceList->at(sourceList->size() - 1)->coord;
 	} else {
 		return Coordinate<float>(0, 0, 0);
 	}
