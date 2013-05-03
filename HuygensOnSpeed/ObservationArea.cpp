@@ -109,7 +109,7 @@ ObservationArea::ObservationArea(int dim,
    }
 #endif
    
-   d_res_gpu = nullptr;
+   d_res_gpu = NULL;
 
 	numObsPoints = 0;
 
@@ -127,7 +127,7 @@ void ObservationArea::deleteResMem() {
    if (resultOnGPU) {
       if (d_res_gpu) {
          cuUtilsSafeCall( cudaFree(d_res_gpu) );
-         d_res_gpu = nullptr;
+         d_res_gpu = NULL;
       }
    }
 #endif
