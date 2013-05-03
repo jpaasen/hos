@@ -295,7 +295,7 @@ public:
 
 			for (unsigned int j = 0; j < srcPulseLength->size(); j++)
 			{
-				pulsLengthList[k] = unsigned int(floor(srcPulseLength->at(j)));
+				pulsLengthList[k] = static_cast<unsigned int>(srcPulseLength->at(j));
 				k++;
 			}
 			delete srcPulseLength;
