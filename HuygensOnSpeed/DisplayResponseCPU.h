@@ -9,12 +9,13 @@
 #pragma once
 
 #include "IDisplayResponse.h"
+#include <vector>
 
 class DisplayResponseCPU : public IDisplayResponse
 {
 private:
 
-   uint *d_pbo_buffer;
+   std::vector<uint> pbo;
 
    void drawBuffer(uint* buffer, const uint obsW, const uint obsH);
    void takeAbs(float* absValues, const cuComplex* values, uint N, bool envelope);

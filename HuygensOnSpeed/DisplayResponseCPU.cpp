@@ -1,6 +1,5 @@
 #include "DisplayResponseCPU.h"
 
-#include <stdlib.h>
 #include <stdexcept>
 #include <limits>
 #include <cmath>
@@ -19,7 +18,7 @@
 // Constructor
 DisplayResponseCPU::DisplayResponseCPU(Dimension<int> dim, float dynamRange, bool envelope) : IDisplayResponse(dim, dynamRange, envelope) 
 {
-   d_pbo_buffer = 0;
+   createPBO();
 }
 
 // Destructor
@@ -98,8 +97,8 @@ void DisplayResponseCPU::drawBuffer(uint* buffer, const uint obsW, const uint ob
 
    glDrawBuffer(GL_BACK);
 
-   gluScaleImage(GL_RGBA, obsW, obsH, GL_UNSIGNED_BYTE, buffer, getWidth(), getHeight(), GL_UNSIGNED_BYTE, d_pbo_buffer);
-   glDrawPixels(getWidth(), getHeight(), GL_RGBA, GL_UNSIGNED_BYTE, d_pbo_buffer);
+   gluScaleImage(GL_RGBA, obsW, obsH, GL_UNSIGNED_BYTE, buffer, getWidth(), getHeight(), GL_UNSIGNED_BYTE, pbo.data());
+   glDrawPixels(getWidth(), getHeight(), GL_RGBA, GL_UNSIGNED_BYTE, pbo.data());
 
    glFinish();
 }
@@ -117,31 +116,26 @@ void DisplayResponseCPU::mapResponseToDisplay(const cuComplex* result, const uin
       throw std::runtime_error("DisplayResponsCPU does not support result located on the GPU.");
    }
 
-	const uint n = obsW * obsH;
+	const uint N = obsW * obsH;
 
    // Take abs of result
-   float* abs_buffer = (float*) malloc(n*sizeof(float));
-   takeAbs(abs_buffer, result, n, envelope);
+   std::vector<float> abs_buffer(N);
+   takeAbs(abs_buffer.data(), result, N, envelope);
 
 	// Find maximum and minimum
-   float max_value = findMax(abs_buffer, n);
-   float min_value = findMin(abs_buffer, n);
+   float max_value = findMax(abs_buffer.data(), N);
+   float min_value = findMin(abs_buffer.data(), N);
 
    // Normalize
-   uint* buffer_norm  = (uint*) malloc(n*sizeof(uint));
-   normalize(buffer_norm, abs_buffer, min_value, max_value, obsW, obsH);
+   std::vector<uint> buffer_norm(N);
+   normalize(buffer_norm.data(), abs_buffer.data(), min_value, max_value, obsW, obsH);
 
-   drawBuffer(buffer_norm, obsW, obsH);
-   
-   free(abs_buffer);
-   free(buffer_norm);
+   drawBuffer(buffer_norm.data(), obsW, obsH);
 }
 
 GLuint DisplayResponseCPU::createPBO()
 {
-	GLsizeiptr memSize = numOfPixels() * sizeof(GLubyte) * 4;
-   d_pbo_buffer = (uint*) malloc(memSize);
-
+   pbo.resize(numOfPixels());
 	return 0;
 }
 
@@ -152,8 +146,5 @@ GLuint DisplayResponseCPU::getPBO()
 
 void DisplayResponseCPU::deletePBO()
 {
-   if (d_pbo_buffer != 0) { 
-      free(d_pbo_buffer);
-   }
 }
 
