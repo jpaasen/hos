@@ -8,17 +8,16 @@
 **/
 #pragma once
 
+#include <stdlib.h>
+#include <vector>
+#include <time.h>
+
 #include "Defines.h"
 #include "Coordinate.h"
 #include "ObservationArea.h"
 #include "Source.h"
 #include "IHuygensPrinciple.h"
 #include "PaintTool.h"
-
-#include <stdlib.h>
-#include <vector>
-#include <time.h>
-
 #include "HuygensCuComplex.h"
 
 class HuygensSimulator 
