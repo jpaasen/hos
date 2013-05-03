@@ -13,7 +13,7 @@ ISource<float>* PaintTool::makePointSource(Coordinate<float> coord, float timeDe
 	return new PointSource(coord, frequency, uniformApod, timeDelay, pulseLength, timeStamp);
 }
 
-uint PaintTool::makeAndAddSourcesAlongLine(std::vector<ISource<float>*>* srcList, // TODO: Send source manager object.
+unsigned int PaintTool::makeAndAddSourcesAlongLine(std::vector<ISource<float>*>* srcList, // TODO: Send source manager object.
 														Coordinate<float> endPoint,
 														float timeDelay, 
 														float timeStmp,
@@ -22,7 +22,7 @@ uint PaintTool::makeAndAddSourcesAlongLine(std::vector<ISource<float>*>* srcList
 	return makeAndAddSourcesAlongLine(srcList, endPoint, timeDelay, timeStmp, speedOfSound, currentApod);
 }
 
-uint PaintTool::makeAndAddSourcesAlongLine(
+unsigned int PaintTool::makeAndAddSourcesAlongLine(
 								std::vector<ISource<float>*>* srcList, 
 								Coordinate<float> endPoint,
 								float timeDelay, 
@@ -31,7 +31,7 @@ uint PaintTool::makeAndAddSourcesAlongLine(
 								Apodization apod
 								)
 {
-	uint n = 0;
+	unsigned int n = 0;
 
 	if (lambdaFrac > 0.05f) 
 	{ 
@@ -43,13 +43,13 @@ uint PaintTool::makeAndAddSourcesAlongLine(
 		dir.normalize();
 
 		float inc = lambda * lambdaFrac; // increment
-		n = (uint)ceilf(length / inc);
+		n = (unsigned int)ceilf(length / inc);
 
 		if (n > 0) {
 
 			std::vector<float> apodization = getApodVec(n, apod);
 
-			for (uint i = 0; i < n; i++) {
+			for (unsigned int i = 0; i < n; i++) {
 				Coordinate<float> point(prevPoint.x+dir.x*inc*i, prevPoint.y+dir.y*inc*i, prevPoint.z+dir.z*inc*i);
 				srcList->push_back(new PointSource(point, frequency, apodization[i], timeDelay, pulseLength, timeStmp));
 			}
@@ -81,8 +81,8 @@ Coordinate<float> PaintTool::makeAndAddDirectiveElemsAlongLine(
 	Coordinate<float> endPoint, 
 	float freq, float spaceFrac, float speedOfSound, 
 	float apod,
-	float timeDelay, uint pulseLength, float timeStmp,
-	uint hight, uint width, float kerf, Coordinate<float> arrayNormal)
+	float timeDelay, unsigned int pulseLength, float timeStmp,
+	unsigned int hight, unsigned int width, float kerf, Coordinate<float> arrayNormal)
 {
 	if (spaceFrac > 0.05f) 
 	{ 
@@ -94,16 +94,16 @@ Coordinate<float> PaintTool::makeAndAddDirectiveElemsAlongLine(
 		dir.normalize();
 
 		float inc = lambda * spaceFrac; // increment
-		uint n = (uint)ceilf(length / inc);
+		unsigned int n = (unsigned int)ceilf(length / inc);
 
 		if (n > 0) {
 
-			for (uint i = 0; i < n; i++) {
+			for (unsigned int i = 0; i < n; i++) {
 
 				// TODO: Add source points in azimuth and elevation inside lambdaSpacing + kerf 
 
 				Coordinate<float> point(startPoint.x+dir.x*inc*i, startPoint.y+dir.y*inc*i, startPoint.z+dir.z*inc*i);
-				sourceList->push_back(new PointSource(point, freq, apod, timeDelay, pulseLength, timeStmp));
+				sourceList->push_back(new PointSource(point, freq, apod, timeDelay, static_cast<float>(pulseLength), timeStmp));
 			}
 
 			printf("[%.0f ms] Created a %.1f cm, %d (%dx%d) element ULA with %.1f*lambda spacing\n", timeStmp*1e6f, length*100, n, width, hight, spaceFrac);
@@ -114,6 +114,7 @@ Coordinate<float> PaintTool::makeAndAddDirectiveElemsAlongLine(
 
 	if (sourceList->size() > 0) {
       //return sourceList->at(sourceList->size() - 1)->coord;
+      return Coordinate<float>(0, 0, 0);
 	} else {
 		return Coordinate<float>(0, 0, 0);
 	}

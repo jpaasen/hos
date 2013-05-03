@@ -90,12 +90,12 @@ void PointSource::setTimeStamp(std::vector<timestamp> &timeStamp)
 	}
 }
 
-uint PointSource::sizeSrcGroup()
+unsigned int PointSource::sizeSrcGroup()
 {
 	return 1;
 }
 
-uint PointSource::sizePointSrc()
+unsigned int PointSource::sizePointSrc()
 {
 	return 1;
 }

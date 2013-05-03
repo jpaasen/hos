@@ -174,13 +174,13 @@ public:
 
       newSourceList.resize(3*n);
 
-		uint k = 0;
+		unsigned int k = 0;
 
-		for (uint i = 0; i < sourceList.size(); i++)
+		for (unsigned int i = 0; i < sourceList.size(); i++)
 		{
 			std::vector<Coordinate<float> >* sourceCoord = sourceList[i]->getCoord();
 
-			for (uint j = 0; j < sourceCoord->size(); j++)
+			for (unsigned int j = 0; j < sourceCoord->size(); j++)
 			{
 				newSourceList[k]		= sourceCoord->at(j).x;
 				newSourceList[k + n]	= sourceCoord->at(j).y;
@@ -198,15 +198,15 @@ public:
 
 		freqList.resize(totalNumberOfPointSources);
 
-		uint n = (uint) sourceList.size();
-		uint k = 0;
+		unsigned int n = (unsigned int) sourceList.size();
+		unsigned int k = 0;
 
-		for (uint i = 0; i < n; i++)
+		for (unsigned int i = 0; i < n; i++)
 		{
 			
 			std::vector<float>* srcFreq = sourceList[i]->getFreq();
 
-			for (uint j = 0; j < srcFreq->size(); j++)
+			for (unsigned int j = 0; j < srcFreq->size(); j++)
 			{
 				freqList[k] = srcFreq->at(j);
 				k++;
@@ -221,15 +221,15 @@ public:
 		
       apodList.resize(totalNumberOfPointSources);
 
-		uint n = (uint) sourceList.size();
-		uint k = 0;
+		unsigned int n = (unsigned int) sourceList.size();
+		unsigned int k = 0;
 
-		for (uint i = 0; i < n; i++)
+		for (unsigned int i = 0; i < n; i++)
 		{
 			
 			std::vector<float>* srcApod = sourceList[i]->getApod();
 
-			for (uint j = 0; j < srcApod->size(); j++)
+			for (unsigned int j = 0; j < srcApod->size(); j++)
 			{
 				apodList[k] = srcApod->at(j);
 				k++;
@@ -244,14 +244,14 @@ public:
       
       timeDelayList.resize(totalNumberOfPointSources);
 
-		uint n = (uint) sourceList.size();
-		uint k = 0;
+		unsigned int n = (unsigned int) sourceList.size();
+		unsigned int k = 0;
 
-		for (uint i = 0; i < n; i++)
+		for (unsigned int i = 0; i < n; i++)
 		{
 			std::vector<float>* srcTimeDelay = sourceList[i]->getTimeDelay();
 
-			for (uint j = 0; j < srcTimeDelay->size(); j++)
+			for (unsigned int j = 0; j < srcTimeDelay->size(); j++)
 			{
 				timeDelayList[k] = srcTimeDelay->at(j);
 				k++;
@@ -265,14 +265,14 @@ public:
 		
       timeStampList.resize(totalNumberOfPointSources);
 
-		uint n = (uint) sourceList.size();
-		uint k = 0;
+		unsigned int n = (unsigned int) sourceList.size();
+		unsigned int k = 0;
 
-		for (uint i = 0; i < n; i++)
+		for (unsigned int i = 0; i < n; i++)
 		{
 			std::vector<float>* srcTimeStamp = sourceList[i]->getTimeStamp();
 
-			for (uint j = 0; j < srcTimeStamp->size(); j++)
+			for (unsigned int j = 0; j < srcTimeStamp->size(); j++)
 			{
 				timeStampList[k] = srcTimeStamp->at(j);
 				k++;
@@ -282,20 +282,20 @@ public:
 	}
 
 	// TODO: Move to the GPU-version of the simulator
-	void getPulseLengthList(std::vector<uint> &pulsLengthList) {
+	void getPulseLengthList(std::vector<unsigned int> &pulsLengthList) {
 		
       pulsLengthList.resize(totalNumberOfPointSources);
 
-		uint n = (uint) sourceList.size();
-		uint k = 0;
+		unsigned int n = (unsigned int) sourceList.size();
+		unsigned int k = 0;
 
-		for (uint i = 0; i < n; i++)
+		for (unsigned int i = 0; i < n; i++)
 		{
 			std::vector<float>* srcPulseLength = sourceList[i]->getPulseLength();
 
-			for (uint j = 0; j < srcPulseLength->size(); j++)
+			for (unsigned int j = 0; j < srcPulseLength->size(); j++)
 			{
-				pulsLengthList[k] = uint(floor(srcPulseLength->at(j)));
+				pulsLengthList[k] = unsigned int(floor(srcPulseLength->at(j)));
 				k++;
 			}
 			delete srcPulseLength;
@@ -314,7 +314,7 @@ public:
 	{
 		// find source with maximum timeOfFlight
 		float maxTimeOfFlight = 0;
-		for (uint i = 0; i < sourceList.size(); i++)
+		for (unsigned int i = 0; i < sourceList.size(); i++)
 		{
 			float newTimeOfFlight = sourceList[i]->getTimeOfFlight(focusPoint, observationSpace->getSpeedOfSound());
 			//sourceList[i]->timeDelay = newTimeOfFlight;
@@ -330,7 +330,7 @@ public:
 		maxTime.push_back(maxTimeOfFlight);
 
 		// for each source
-		for (uint i = 0; i < sourceList.size(); i++)
+		for (unsigned int i = 0; i < sourceList.size(); i++)
 		{
 			// calc difference between its timeOfFlight and refTime. 
 			//sourceList[i]->timeDelay -= maxTimeOfFlight;
@@ -341,14 +341,14 @@ public:
 	void listSources()
 	{
 
-		uint k = 0;
+		unsigned int k = 0;
 
 		for (unsigned int i = 0; i < sourceList.size(); i++) 
 		{
 			std::vector<Coordinate<float> >* srcCoord	= sourceList[i]->getCoord();
 			std::vector<float>* srcTimeStamp = sourceList[i]->getTimeStamp();
 				
-			for (uint j = 0; j < srcCoord->size(); j++)
+			for (unsigned int j = 0; j < srcCoord->size(); j++)
 			{
 				printf("(%.2f, %.2f, %.2f) %.2f us\n", srcCoord->at(k).x, srcCoord->at(k).y, srcCoord->at(k).z, srcTimeStamp->at(k)*1000000);
 

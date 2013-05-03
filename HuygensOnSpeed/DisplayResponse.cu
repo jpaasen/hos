@@ -47,14 +47,14 @@ void DisplayResponse::drawBuffer()
 * Before copying to pbo, result is normalized 
 *
 **/
-void DisplayResponse::mapResponseToDisplay(const cuComplex* result, const uint obsW, const uint obsH, const bool resultOnGPU) 
+void DisplayResponse::mapResponseToDisplay(const cuComplex* result, const unsigned int obsW, const unsigned int obsH, const bool resultOnGPU) 
 {
 
 	// TODO: Extraxt some of the code here out to private helper functions
 
 	// Take abs of result
 	float* abs_buffer;
-	const uint n = obsW * obsH;
+	const unsigned int n = obsW * obsH;
 	cuUtilsSafeCall( cudaMalloc<float>(&abs_buffer, sizeof(float)*n) );
 
 	cuComplex* result2;
@@ -107,7 +107,7 @@ void DisplayResponse::mapResponseToDisplay(const cuComplex* result, const uint o
 	/*
 	float* tempAbsBuffer = (float *)malloc(sizeof(float)*n);
 	cuUtilsSafeCall( cudaMemcpy(tempAbsBuffer, abs_buffer, sizeof(float)*n, cudaMemcpyDeviceToHost) );
-	for (uint i = 0; i < n; i++) {
+	for (unsigned int i = 0; i < n; i++) {
 	printf("%2.2f ", tempAbsBuffer[i]);
 	if (i != 0 && (i % obsH) == obsH-1)
 	printf("\n");

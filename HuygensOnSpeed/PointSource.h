@@ -57,8 +57,8 @@ public:
 	std::vector<timestamp>* getTimeStamp();
 	void setTimeStamp(std::vector<timestamp> &timeStamp);
 
-	uint sizeSrcGroup();
-	uint sizePointSrc();
+	unsigned int sizeSrcGroup();
+	unsigned int sizePointSrc();
 
 	float getTimeOfFlight(Coordinate<float> point, float speedOfSound);
 };

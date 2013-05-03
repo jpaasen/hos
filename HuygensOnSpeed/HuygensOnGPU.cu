@@ -11,12 +11,12 @@ cuComplex* HuygensOnGPU::calcFieldResponse(
 }
 
 void HuygensOnGPU::calcFieldResponse(cuComplex* d_res,
-									 const uint nObs, const float* coordObs,	// Observation # and coordiantes
-									 const uint nSrc, const float* coordSrc,	// Source #, coordinates,
+									 const unsigned int nObs, const float* coordObs,	// Observation # and coordiantes
+									 const unsigned int nSrc, const float* coordSrc,	// Source #, coordinates,
 									 const float* fSrc, const float* apodSrc,	// frequencies, apodization
 									 const float* steerFocusDelaySrc,			// and steer-focus delays
 									 const float* srcTimeStamp,					// time stamp telling when source starts to fire
-									 const uint* srcPulseLength,				// pulse length 0 == Inf
+									 const unsigned int* srcPulseLength,				// pulse length 0 == Inf
 									 const float timestampObs,					// Current timestamp for this observation
 									 const float refTime,						// Reference time for calculating attenuation 	
 									 const float c0,
@@ -35,7 +35,7 @@ void HuygensOnGPU::calcFieldResponse(cuComplex* d_res,
 
 		// copy points etc which is not in device memory to the device
 		float* d_coordObs = NULL;
-		uint memSize = sizeof(float) * nObs * 3;
+		unsigned int memSize = sizeof(float) * nObs * 3;
 		cuUtilsSafeCall( cudaMalloc<float>(&d_coordObs, memSize) );
 		cuUtilsSafeCall( cudaMemcpy(d_coordObs, coordObs, memSize, cudaMemcpyHostToDevice) );
 
@@ -79,12 +79,12 @@ void HuygensOnGPU::calcFieldResponse(cuComplex* d_res,
 		cuUtilsSafeCall( cudaMemcpy(d_srcTimeStamp, srcTimeStamp, memSize, cudaMemcpyHostToDevice) );
 #endif
 
-		uint* d_srcPulseLength = NULL;
+		unsigned int* d_srcPulseLength = NULL;
 #ifdef USE_CONST_MEMORY
-		cuUtilsSafeCall( cudaMemcpyToSymbol(c_srcPulseLength, srcPulseLength, nSrc * sizeof(uint)) );	
+		cuUtilsSafeCall( cudaMemcpyToSymbol(c_srcPulseLength, srcPulseLength, nSrc * sizeof(unsigned int)) );	
 #else	
-		cuUtilsSafeCall( cudaMalloc<uint>(&d_srcPulseLength, nSrc * sizeof(uint)) );
-		cuUtilsSafeCall( cudaMemcpy(d_srcPulseLength, srcPulseLength, nSrc * sizeof(uint), cudaMemcpyHostToDevice) );
+		cuUtilsSafeCall( cudaMalloc<unsigned int>(&d_srcPulseLength, nSrc * sizeof(unsigned int)) );
+		cuUtilsSafeCall( cudaMemcpy(d_srcPulseLength, srcPulseLength, nSrc * sizeof(unsigned int), cudaMemcpyHostToDevice) );
 #endif
 
 		cuComplex* d_res2;

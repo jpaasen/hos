@@ -227,7 +227,7 @@ void mouse(int button, int state, int x, int y)
 				if (mouseHasBeenMoved)
 				{
 					if (!freeDrawMode) {
-						uint n = paintTool->makeAndAddSourcesAlongLine(
+						unsigned int n = paintTool->makeAndAddSourcesAlongLine(
 							simulator->getSourceList(), 
 							c, 
 							0.0f, 
@@ -354,7 +354,7 @@ void display()
 	{
 		paintTool->setPrevCoord(mapScreenCoordsToSimulatorCoords(observationSpace, dispResp, 100, 75));
 		Coordinate<float> c = mapScreenCoordsToSimulatorCoords(observationSpace, dispResp, 100, 175); 
-		uint n = paintTool->makeAndAddSourcesAlongLine(
+		unsigned int n = paintTool->makeAndAddSourcesAlongLine(
 			simulator->getSourceList(), 
 			c, 
 			0.0f, 

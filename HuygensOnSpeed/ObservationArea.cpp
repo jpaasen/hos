@@ -2,22 +2,22 @@
 
 #include <stdexcept>
 
-Coordinate<uint> ObservationArea::nObsPoints() {
+Coordinate<unsigned int> ObservationArea::nObsPoints() {
 	if (numObsPoints == 0) // number of obs points has not been calculated before (or it is 0)
 	{
 		// any how, we then do the calculations
 		Coordinate<float> diff = Coordinate<float>::subtract(maxLimits, minLimits);
 		diff.mul(resolution);
 
-		uint nX = uint(floor(diff.x));
-		uint nY = uint(floor(diff.y));
-		uint nZ = uint(floor(diff.z));
+		unsigned int nX = unsigned int(floor(diff.x));
+		unsigned int nY = unsigned int(floor(diff.y));
+		unsigned int nZ = unsigned int(floor(diff.z));
 
 		if (nX == 0) nX = 1; // make one point if interval is zero
 		if (nY == 0) nY = 1; 
 		if (nZ == 0) nZ = 1; 
 
-		numObsPointsVec = Coordinate<uint>(nX, nY, nZ);
+		numObsPointsVec = Coordinate<unsigned int>(nX, nY, nZ);
 
 		numObsPoints = numObsPointsVec.reduceMul();
 	}
@@ -29,10 +29,10 @@ Coordinate<float> ObservationArea::areaSize() {
 	return Coordinate<float>::subtract(maxLimits, minLimits);
 }
 
-uint ObservationArea::numelObsPoints() {
+unsigned int ObservationArea::numelObsPoints() {
 	if (numObsPoints == 0)
 	{
-		Coordinate<uint> coord = nObsPoints();
+		Coordinate<unsigned int> coord = nObsPoints();
 		numObsPoints = coord.reduceMul();
 	}
 
@@ -42,13 +42,13 @@ uint ObservationArea::numelObsPoints() {
 float* ObservationArea::getObsPoints() {
    if (obsPointsGPU.empty()) 
 	{
-		Coordinate<uint> n = nObsPoints();
+		Coordinate<unsigned int> n = nObsPoints();
 
-		uint numObs = n.reduceMul();
+		unsigned int numObs = n.reduceMul();
 
       obsPointsGPU.resize(numObs * 3);
 
-		for (uint i = 0; i < numObs; i++) 
+		for (unsigned int i = 0; i < numObs; i++) 
 		{
 			obsPointsGPU[i]				= obsPoints[i].x;
 			obsPointsGPU[i + numObs]	= obsPoints[i].y;
@@ -59,14 +59,14 @@ float* ObservationArea::getObsPoints() {
 	return obsPointsGPU.data();
 }
 
-Coordinate<float> ObservationArea::getPosition(uint x, uint z, uint w, uint h) {
+Coordinate<float> ObservationArea::getPosition(unsigned int x, unsigned int z, unsigned int w, unsigned int h) {
 	Coordinate<float> t = Coordinate<float>(x/float(w), 0, z/float(h));
 	return Coordinate<float>::elemlerp(maxLimits, minLimits, t);
 }
 
 void ObservationArea::createObsGrid() {
 
-	Coordinate<uint> n = nObsPoints();
+	Coordinate<unsigned int> n = nObsPoints();
    obsPoints.resize(n.reduceMul());
 
 	float x = minLimits.x;

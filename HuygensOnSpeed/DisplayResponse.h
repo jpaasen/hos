@@ -12,7 +12,7 @@
 
 #include "CudaUtils.h"
 
-#include <stdlib.h>
+//#include <stdlib.h>
 #include <stdio.h>
 
 #include <cuda_gl_interop.h>
@@ -23,7 +23,7 @@ class DisplayResponse : public IDisplayResponse
 {
 private:
    GLuint pbo;					// openGL pixel buffer object (pbo)
-   uint *d_pbo_buffer;			// cuda mapping of pbo
+   unsigned int *d_pbo_buffer;			// cuda mapping of pbo
    cudaGraphicsResource *g_res; // CUDA 3.0 > OpenGL interoperability resource
 
    void drawBuffer();
@@ -34,8 +34,8 @@ public:
 
    void mapResponseToDisplay(
       const cuComplex* result, 
-      const uint obsW, 
-      const uint obsH,
+      const unsigned int obsW, 
+      const unsigned int obsH,
       const bool resultOnGPU	
       );
 

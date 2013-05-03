@@ -58,13 +58,13 @@ void HuygensSimulator::calcSimulation(ObservationArea *obsArea) {
       getTimeDelayList(steerFocusDelaySrc);
 		std::vector<float> srcTimeStamp;
       getTimeStampList(srcTimeStamp);
-		std::vector<uint> srcPulseLength;
+		std::vector<unsigned int> srcPulseLength;
       getPulseLengthList(srcPulseLength);
 
 		huygen->calcFieldResponse(
 			observationSpace->getResMem(),
 			observationSpace->numelObsPoints(), observationSpace->getObsPoints(),
-			(uint)sourceList.size(), coordSrc.data(), 
+			(unsigned int)sourceList.size(), coordSrc.data(), 
 			fSrc.data(), apodSrc.data(), steerFocusDelaySrc.data(), srcTimeStamp.data(), srcPulseLength.data(),
 			this->currentTime, this->currentTime, 
 			observationSpace->getSpeedOfSound(), observationSpace->resultIsOnGPU());

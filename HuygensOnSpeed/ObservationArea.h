@@ -33,8 +33,8 @@ private:
 	std::vector< Coordinate<float> > obsPoints;	// list of observation points
 	float speedOfSound;
 
-	Coordinate<uint> numObsPointsVec;   // holding the number of obsPoints in x, y and z so that it is calculated only once for this object
-	uint numObsPoints;					   // in the same way this holdes the total number of observation points
+	Coordinate<unsigned int> numObsPointsVec;   // holding the number of obsPoints in x, y and z so that it is calculated only once for this object
+	unsigned int numObsPoints;					   // in the same way this holdes the total number of observation points
 
 	std::vector<float> obsPointsGPU;	   // list of observation points suited for GPU kernel (coalesced memory reads)
 
@@ -77,7 +77,7 @@ public:
 	unsigned int numelObsPoints();
 
 	/** Map (x,z) to coordinate in observation area wher x in [0 w-1] and z in [0 h-1]**/
-	Coordinate<float> getPosition(uint x, uint z, uint w, uint h);
+	Coordinate<float> getPosition(unsigned int x, unsigned int z, unsigned int w, unsigned int h);
 
 	/** Getters and setters **/
 	Coordinate<float> getMinLim() {return minLimits;}

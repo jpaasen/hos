@@ -25,12 +25,12 @@ public:
 	// TODO: Change all float arrays to a single source array. Lett the implementation take care of copying it to the right memory (hence for a GPU)
 	virtual void calcFieldResponse(
 		cuComplex* d_res,								// result // TODO: Remove dependency on cuComplex, can be tricky!
-		const uint nObs, const T* coordObs,			// Observation # and coordiantes
-		const uint nSrc, const T* coordSrc,			// Source #, coordinates,
+		const unsigned int nObs, const T* coordObs,			// Observation # and coordiantes
+		const unsigned int nSrc, const T* coordSrc,			// Source #, coordinates,
 		const T* fSrc, const T* apodSrc,			// frequencies, apodization
 		const T* steerFocusDelaySrc,				// and steer-focus delays
 		const T* srcTimeStamp,						// time stamp telling when source starts to fire
-		const uint* srcPulseLength,					// pulse length 0 == Inf
+		const unsigned int* srcPulseLength,					// pulse length 0 == Inf
 		const T timestampObs,						// Current timestamp for this observation
 		const T refTime,							// Reference time for calculating attenuation (not in use)
 		const T c0,									// Speed of sound

@@ -20,7 +20,7 @@ __device__ inline float3 subf(float3 a, float3 b)
 }
 
 // extract float3 from float array with stridded access of w
-__device__ inline float3 make_float3(const float* a, uint &xIdx, const uint w)
+__device__ inline float3 make_float3(const float* a, unsigned int &xIdx, const unsigned int w)
 {
 	//	     			 xIdx	   yIdx		   zIdx
 	return make_float3(a[xIdx], a[xIdx+w], a[xIdx+2*w]);

@@ -26,7 +26,7 @@ float3 subf(float3 a, float3 b) {
 }
 
    // extract float3 from float array with stridded access of w
-float3 make_float3(const float* a, int &xIdx, const int w) {
+float3 make_float3(const float* a, unsigned int &xIdx, const int w) {
          //	     			 xIdx	   yIdx		   zIdx
    return ::make_float3(a[xIdx], a[xIdx+w], a[xIdx+2*w]);
 }
@@ -64,7 +64,7 @@ void HuygensOnCPU::calcFieldResponse(cuComplex *d_res,
 	cuComplex *resp = (cuComplex*) malloc(sizeof(cuComplex)*nObs);
 
    #pragma omp parallel for
-	for (int index = 0; index < nObs; index++)
+	for (unsigned int index = 0; index < nObs; index++)
 	{
 
 		if (index < nObs)
@@ -76,7 +76,7 @@ void HuygensOnCPU::calcFieldResponse(cuComplex *d_res,
 			cuComplex respTemp = make_cuComplex(0.0f, 0.0f);
 
 			// loop over all source points
-			for (int n = 0; n < nSrc; n++) 
+			for (unsigned int n = 0; n < nSrc; n++) 
 			{
 				float3 src = make_float3(coordSrc, n, nSrc);  
 
@@ -84,7 +84,7 @@ void HuygensOnCPU::calcFieldResponse(cuComplex *d_res,
 				float tStFo			= steerFocusDelaySrc[n];	
 				float timestampSrc	= srcTimeStamp[n];			
 				float frequencySrc	= fSrc[n];					
-				uint pulseL			= srcPulseLength[n];
+				unsigned int pulseL			= srcPulseLength[n];
 				float apod			= apodSrc[n];
 
 				// time of flight from source to current observation point

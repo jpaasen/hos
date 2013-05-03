@@ -27,9 +27,9 @@ DisplayResponseCPU::~DisplayResponseCPU()
 	deletePBO();
 }
 
-float DisplayResponseCPU::findMin(float* values, uint N) {
+float DisplayResponseCPU::findMin(float* values, unsigned int N) {
    float min_value = std::numeric_limits<float>::max();
-   for (uint i = 0; i < N; i++) {
+   for (unsigned int i = 0; i < N; i++) {
       if (values[i] < min_value) {
          min_value = values[i];
       }
@@ -37,9 +37,9 @@ float DisplayResponseCPU::findMin(float* values, uint N) {
    return min_value;
 }
 
-float DisplayResponseCPU::findMax(float* values, uint N) {
+float DisplayResponseCPU::findMax(float* values, unsigned int N) {
    float max_value = std::numeric_limits<float>::min();
-   for (uint i = 0; i < N; i++) {
+   for (unsigned int i = 0; i < N; i++) {
       if (values[i] > max_value) {
          max_value = values[i];
       }
@@ -47,9 +47,9 @@ float DisplayResponseCPU::findMax(float* values, uint N) {
    return max_value;
 }
 
-void DisplayResponseCPU::takeAbs(float* absValues, const cuComplex* values, uint N, bool envelope) {
+void DisplayResponseCPU::takeAbs(float* absValues, const cuComplex* values, unsigned int N, bool envelope) {
 
-   for (uint i = 0; i < N; i++) {
+   for (unsigned int i = 0; i < N; i++) {
 
       cuComplex v = values[i];
 
@@ -61,23 +61,23 @@ void DisplayResponseCPU::takeAbs(float* absValues, const cuComplex* values, uint
    }
 }
 
-void DisplayResponseCPU::normalize(uint* output, float* values, float minValue, float maxValue, uint obsW, uint obsH) {
+void DisplayResponseCPU::normalize(unsigned int* output, float* values, float minValue, float maxValue, unsigned int obsW, unsigned int obsH) {
 
-   for (uint x = 0; x < obsH; x++) {
-      for (uint y = 0; y < obsW; y++) { 
+   for (unsigned int x = 0; x < obsH; x++) {
+      for (unsigned int y = 0; y < obsW; y++) { 
 
          float normValue = (values[y*obsH + x] - minValue) / (maxValue - minValue);
 
          float dBValue = 20.0f * log10(normValue); // possible issue with value == 0.
 
-         const uint colorHigh = 0xff;
-         const uint colorLow = 0x00;
+         const unsigned int colorHigh = 0xff;
+         const unsigned int colorLow = 0x00;
 
          float t = 1.0f + dBValue/dynamicRange;
          if (t > 1.0f) t = 1.0f;
          if (t < 0.0f) t = 0.0f;
 
-         const uint color = static_cast<uint>(floor((1.0f - t)*colorLow + 0.5) + floor(t*colorHigh + 0.5));
+         const unsigned int color = static_cast<unsigned int>(floor((1.0f - t)*colorLow + 0.5) + floor(t*colorHigh + 0.5));
 
          //			 alpha			   blue			  green		  red
          output[x*obsW + y] = 0xff000000 | (color << 16) | (color << 8) | color;
@@ -85,7 +85,7 @@ void DisplayResponseCPU::normalize(uint* output, float* values, float minValue, 
    }
 }
 
-void DisplayResponseCPU::drawBuffer(uint* buffer, const uint obsW, const uint obsH)
+void DisplayResponseCPU::drawBuffer(unsigned int* buffer, const unsigned int obsW, const unsigned int obsH)
 {
 	// display result
 	// Clear the color part of both back buffers
@@ -109,14 +109,14 @@ void DisplayResponseCPU::drawBuffer(uint* buffer, const uint obsW, const uint ob
 * Before copying to pbo, result is normalized 
 *
 **/
-void DisplayResponseCPU::mapResponseToDisplay(const cuComplex* result, const uint obsW, const uint obsH, const bool resultOnGPU) 
+void DisplayResponseCPU::mapResponseToDisplay(const cuComplex* result, const unsigned int obsW, const unsigned int obsH, const bool resultOnGPU) 
 {
 
 	if (resultOnGPU) {
       throw std::runtime_error("DisplayResponsCPU does not support result located on the GPU.");
    }
 
-	const uint N = obsW * obsH;
+	const unsigned int N = obsW * obsH;
 
    // Take abs of result
    std::vector<float> abs_buffer(N);
@@ -127,7 +127,7 @@ void DisplayResponseCPU::mapResponseToDisplay(const cuComplex* result, const uin
    float min_value = findMin(abs_buffer.data(), N);
 
    // Normalize
-   std::vector<uint> buffer_norm(N);
+   std::vector<unsigned int> buffer_norm(N);
    normalize(buffer_norm.data(), abs_buffer.data(), min_value, max_value, obsW, obsH);
 
    drawBuffer(buffer_norm.data(), obsW, obsH);

@@ -26,31 +26,31 @@ __constant__ float minValue;
 *	before launch.
 *
 **/
-__global__ void DisplayKernel(uint* pbo, const uint w, const uint h, const float dynamicRange)
+__global__ void DisplayKernel(unsigned int* pbo, const unsigned int w, const unsigned int h, const float dynamicRange)
 {
-	uint x = blockDim.x*blockIdx.x + threadIdx.x;
-	uint y = blockDim.y*blockIdx.y + threadIdx.y;
+	unsigned int x = blockDim.x*blockIdx.x + threadIdx.x;
+	unsigned int y = blockDim.y*blockIdx.y + threadIdx.y;
 
 	if (x < h && y < w)
 	{
 		float value = tex2D(response, x/float(h), y/float(w));
 
 		//const float dynamicRange = 70.0f;
-		const uint index = x*w + y; // will specify how result is mapped to the pbo
+		const unsigned int index = x*w + y; // will specify how result is mapped to the pbo
 
 		// map value to [0 1];
 		float normValue = (value - minValue) / (maxValue - minValue);
 
 		float dBValue = 20.0f * log10f(normValue); // possible issue with value == 0.
 
-		const uint colorHigh = 0xff;
-		const uint colorLow = 0x00;
+		const unsigned int colorHigh = 0xff;
+		const unsigned int colorLow = 0x00;
 
 		float t = 1.0f + dBValue/dynamicRange;
 		if (t > 1.0f) t = 1.0f;
 		if (t < 0.0f) t = 0.0f;
 
-		const uint color = (uint((1.0f - t)*colorLow) + uint(t*colorHigh));
+		const unsigned int color = (unsigned int((1.0f - t)*colorLow) + unsigned int(t*colorHigh));
 
 		//			 alpha			   blue			  green		  red
 		pbo[index] = 0xff000000 | (color << 16) | (color << 8) | color;

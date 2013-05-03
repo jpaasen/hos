@@ -74,7 +74,7 @@ public:
 	* Uniform apodization is used.
 	* The method returns how many point sources where added.
 	**/
-	uint makeAndAddSourcesAlongLine(
+	unsigned int makeAndAddSourcesAlongLine(
 		std::vector<ISource<float>*>* srcList, 
 		Coordinate<float> endPoint,
 		float timeDelay, 
@@ -87,7 +87,7 @@ public:
 	* Apodized by the given vector. Length 1 or equal length of 
 	* The method returns how many point sources where added.
 	**/
-	uint makeAndAddSourcesAlongLine(
+	unsigned int makeAndAddSourcesAlongLine(
 		std::vector<ISource<float>*>* srcList, 
 		Coordinate<float> endPoint,
 		float timeDelay, 
@@ -105,10 +105,10 @@ public:
 																float speedOfSound, 
 																float apod,
 																float timeDelay, 
-																uint pulseLength, 
+																unsigned int pulseLength, 
 																float timeStmp,
-																uint hight, 
-																uint width, 
+																unsigned int hight, 
+																unsigned int width, 
 																float kerf, 
 																Coordinate<float> arrayNormal
 																);

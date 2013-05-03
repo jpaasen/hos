@@ -39,8 +39,8 @@ public:
 	virtual std::vector<timestamp>* getTimeStamp() = 0;
 	virtual void setTimeStamp(std::vector<timestamp> &timeStamp) = 0;
 
-	virtual uint sizeSrcGroup() = 0; // return number of sources on next level if the source has sub-sources
-	virtual uint sizePointSrc() = 0; // return total number of point sources in this source
+	virtual unsigned int sizeSrcGroup() = 0; // return number of sources on next level if the source has sub-sources
+	virtual unsigned int sizePointSrc() = 0; // return total number of point sources in this source
 
 	// Get time of flight from the center of this source given a point and a the medium's speed of sound
 	// After call, time of fligh can also be retrived by calling getTimeDelay.

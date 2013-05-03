@@ -22,7 +22,7 @@ __constant__ float c_fSrc[CONST_MEM_SIZE];					// frequencies
 __constant__ float c_apodSrc[CONST_MEM_SIZE];				// apodization
 __constant__ float c_steerFocusDelaySrc[CONST_MEM_SIZE];	// steer-focus delays
 __constant__ float c_srcTimeStamp[CONST_MEM_SIZE];			// time stamp telling when source starts to fire
-__constant__ uint  c_srcPulseLength[CONST_MEM_SIZE];		// length of pulse in PW mode 
+__constant__ unsigned int  c_srcPulseLength[CONST_MEM_SIZE];		// length of pulse in PW mode 
 #endif
 
 /**
@@ -57,12 +57,12 @@ __constant__ uint  c_srcPulseLength[CONST_MEM_SIZE];		// length of pulse in PW m
 *
 **/
 __global__ void HuygensKernel(cuComplex* resp,							// Output respons
-							  const uint nObs, const float* coordObs,	// Observation # and coordiantes
-							  const uint nSrc, const float* coordSrc,	// Source #, coordinates,
+							  const unsigned int nObs, const float* coordObs,	// Observation # and coordiantes
+							  const unsigned int nSrc, const float* coordSrc,	// Source #, coordinates,
 							  const float* fSrc, const float* apodSrc,	// frequencies, apodization
 							  const float* steerFocusDelaySrc,			// and steer-focus delays
 							  const float* srcTimeStamp,				// time stamp telling when source starts to fire
-							  const uint* srcPulseLength,				// pulse length for PW-mode (0 == Inf)
+							  const unsigned int* srcPulseLength,				// pulse length for PW-mode (0 == Inf)
 							  const float timestampObs,					// Current timestamp for this observation
 							  const float refTime,						// Reference time for calculating attenuation (not in use)
 							  const float c0)							// Speed of sound
@@ -76,12 +76,12 @@ __global__ void HuygensKernel(cuComplex* resp,							// Output respons
 	__shared__ float  fSrcs[SRC_BUFFER_SIZE];
 	__shared__ float  delaySrcs[SRC_BUFFER_SIZE];
 	__shared__ float  timeStampSrcs[SRC_BUFFER_SIZE];
-	__shared__ uint   pulseLengthSrcs[SRC_BUFFER_SIZE];
+	__shared__ unsigned int   pulseLengthSrcs[SRC_BUFFER_SIZE];
 	__shared__ float  apodSrcs[SRC_BUFFER_SIZE];
 #endif
 
 	// calc linear index of observation point
-	uint index = blockIdx.x * blockDim.x + threadIdx.x;
+	unsigned int index = blockIdx.x * blockDim.x + threadIdx.x;
 
 	if (index < nObs)
 	{
@@ -92,15 +92,15 @@ __global__ void HuygensKernel(cuComplex* resp,							// Output respons
 		cuComplex respTemp = make_cuComplex(0.0f, 0.0f);
 
 #ifdef USE_SHARED_MEMORY
-		uint nGroups = 0;
+		unsigned int nGroups = 0;
 		if (nSrc > 0) {
 			nGroups = (nSrc - 1) / SRC_BUFFER_SIZE + 1;
 		}
-		for (uint group = 0; group < nGroups; group++)
+		for (unsigned int group = 0; group < nGroups; group++)
 		{
 
-			uint n = group * SRC_BUFFER_SIZE + threadIdx.x;
-			uint nSrcIngroup = SRC_BUFFER_SIZE;
+			unsigned int n = group * SRC_BUFFER_SIZE + threadIdx.x;
+			unsigned int nSrcIngroup = SRC_BUFFER_SIZE;
 
 			if (nSrc < SRC_BUFFER_SIZE + group * SRC_BUFFER_SIZE) {
 				nSrcIngroup = nSrc - group * SRC_BUFFER_SIZE;
@@ -119,14 +119,14 @@ __global__ void HuygensKernel(cuComplex* resp,							// Output respons
 
 			__syncthreads();
 
-			for (uint srcIdx = 0; srcIdx < nSrcIngroup; srcIdx++) {
+			for (unsigned int srcIdx = 0; srcIdx < nSrcIngroup; srcIdx++) {
 
 				float3 src = srcs[srcIdx];
 
 #else
 
 		// loop over all source points
-		for (uint n = 0; n < nSrc; n++) 
+		for (unsigned int n = 0; n < nSrc; n++) 
 		{
 			// Optimalization plans:
 			// all threads will read this value! TODO: Check if this value gets broadcasted. Info: Broadcasting only works for shared memory!
@@ -141,21 +141,21 @@ __global__ void HuygensKernel(cuComplex* resp,							// Output respons
 			float tStFo			= c_steerFocusDelaySrc[n];	// TODO: read one time for each block into shared memory (The same issue as explained for src coordinate reads)
 			float timestampSrc	= c_srcTimeStamp[n];		// TODO: read one time for each block into shared memory
 			float frequencySrc	= c_fSrc[n];				// TODO: read one time for each block into shared memory
-			uint pulseL			= c_srcPulseLength[n];		// TODO: read one time for each block into shared memory
+			unsigned int pulseL			= c_srcPulseLength[n];		// TODO: read one time for each block into shared memory
 			float apod			= c_apodSrc[n];				// TODO: read one time for each block into shared memor
 #else
 			// fetch steer-focus delay, src timestamp, frequency and pulse length from global memory
 			float tStFo			= steerFocusDelaySrc[n];	
 			float timestampSrc	= srcTimeStamp[n];			
 			float frequencySrc	= fSrc[n];					
-			uint pulseL			= srcPulseLength[n];
+			unsigned int pulseL			= srcPulseLength[n];
 			float apod			= apodSrc[n];
 #endif
 #else
 			float tStFo			= delaySrcs[srcIdx];	
 			float timestampSrc	= timeStampSrcs[srcIdx];			
 			float frequencySrc	= fSrcs[srcIdx];					
-			uint  pulseL		= pulseLengthSrcs[srcIdx];
+			unsigned int  pulseL		= pulseLengthSrcs[srcIdx];
 			float apod			= apodSrcs[srcIdx];
 #endif
 

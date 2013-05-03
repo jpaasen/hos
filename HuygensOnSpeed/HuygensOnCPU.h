@@ -20,12 +20,12 @@ public:
 	~HuygensOnCPU(void);
 
 	void calcFieldResponse(cuComplex* d_res,
-		const uint nObs, const float* coordObs,		// Observation # and coordiantes
-		const uint nSrc, const float* coordSrc,		// Source #, coordinates,
+		const unsigned int nObs, const float* coordObs,		// Observation # and coordiantes
+		const unsigned int nSrc, const float* coordSrc,		// Source #, coordinates,
 		const float* fSrc, const float* apodSrc,	// frequencies, apodization
 		const float* steerFocusDelaySrc,			// and steer-focus delays
 		const float* srcTimeStamp,					// time stamp telling when source starts to fire
-		const uint* srcPulseLength,					// pulse length 0 == Inf
+		const unsigned int* srcPulseLength,					// pulse length 0 == Inf
 		const float timestampObs,					// Current timestamp for this observation
 		const float refTime,						// Reference time for calculating attenuation 	
 		const float c0,								// Speed of sound

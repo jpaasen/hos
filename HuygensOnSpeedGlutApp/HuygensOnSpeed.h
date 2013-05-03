@@ -8,15 +8,6 @@
 **/
 #pragma once
 
-// Moved to cmake
-//#define CALC_WITH_CUDA
-//#define CALC_WITH_CPU
-//#define CALC_WITH_OPENCL
-
-//#define DISP_WITH_CUDA
-//#define DISP_WITH_CPU
-//#define DISP_WITH_OPENCL
-
 #ifdef _WIN32
 #  include <windows.h>
 #endif
@@ -43,7 +34,6 @@
 #include "../HuygensOnSpeed/HuygensSimulator.h"
 
 // std libs
-//#include <stdlib.h>
 #include <stdio.h>
 #include <vector>
 #include <time.h>

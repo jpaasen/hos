@@ -15,13 +15,13 @@ class DisplayResponseCPU : public IDisplayResponse
 {
 private:
 
-   std::vector<uint> pbo;
+   std::vector<unsigned int> pbo;
 
-   void drawBuffer(uint* buffer, const uint obsW, const uint obsH);
-   void takeAbs(float* absValues, const cuComplex* values, uint N, bool envelope);
-   float findMax(float* values, uint N);
-   float findMin(float* values, uint N);
-   void normalize(uint* output, float* values, float minValue, float maxValue, uint obsW, uint obsH);
+   void drawBuffer(unsigned int* buffer, const unsigned int obsW, const unsigned int obsH);
+   void takeAbs(float* absValues, const cuComplex* values, unsigned int N, bool envelope);
+   float findMax(float* values, unsigned int N);
+   float findMin(float* values, unsigned int N);
+   void normalize(unsigned int* output, float* values, float minValue, float maxValue, unsigned int obsW, unsigned int obsH);
 
 public:
    DisplayResponseCPU(Dimension<int> dim, float dynamRange = 45.0f, bool envelope = true);
@@ -29,8 +29,8 @@ public:
 
 	void mapResponseToDisplay(
 		const cuComplex* result, 
-		const uint obsW, 
-		const uint obsH,
+		const unsigned int obsW, 
+		const unsigned int obsH,
 		const bool resultOnGPU	
 		);
 

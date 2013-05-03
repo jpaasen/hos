@@ -19,11 +19,11 @@
 */
 __global__ void ComplexAbsKernel(float* absBuffer, 
 								 const cuComplex* complexBuffer, 
-								 const uint n,
+								 const unsigned int n,
 								 const bool envelope)
 {
 
-	const uint index = blockDim.x * blockIdx.x + threadIdx.x;
+	const unsigned int index = blockDim.x * blockIdx.x + threadIdx.x;
 
 	if (index < n)
 	{

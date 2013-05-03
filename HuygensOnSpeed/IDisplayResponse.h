@@ -30,8 +30,8 @@ public:
    
    virtual void mapResponseToDisplay(
       const cuComplex* result,	// result
-      const uint obsW,			   // observation space width
-      const uint obsH,			   // observation space height	
+      const unsigned int obsW,			   // observation space width
+      const unsigned int obsH,			   // observation space height	
       const bool resultOnGPU	   // true if result is in GPU memory 
 		) = 0;
    
