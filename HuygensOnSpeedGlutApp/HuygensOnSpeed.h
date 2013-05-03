@@ -50,7 +50,7 @@
 #include <math.h>
 //#include <algorithm>
 //#include <map>
-//#include <string>
+#include <cstring>
 
 //Code for detecting memory leaks
 #ifdef _DEBUG
@@ -64,7 +64,7 @@
 
 //
 
-char *applicationTitle = "Huygens On Speed"; // Title string for this application
+const char *applicationTitle = "Huygens On Speed"; // Title string for this application
 char title[512];
 
 IDisplayResponse* dispResp;		// display interface
