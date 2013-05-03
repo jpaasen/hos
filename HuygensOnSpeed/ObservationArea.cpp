@@ -9,9 +9,9 @@ Coordinate<unsigned int> ObservationArea::nObsPoints() {
 		Coordinate<float> diff = Coordinate<float>::subtract(maxLimits, minLimits);
 		diff.mul(resolution);
 
-		unsigned int nX = unsigned int(floor(diff.x));
-		unsigned int nY = unsigned int(floor(diff.y));
-		unsigned int nZ = unsigned int(floor(diff.z));
+		unsigned int nX = static_cast<unsigned int>(floor(diff.x));
+		unsigned int nY = static_cast<unsigned int>(floor(diff.y));
+		unsigned int nZ = static_cast<unsigned int>(floor(diff.z));
 
 		if (nX == 0) nX = 1; // make one point if interval is zero
 		if (nY == 0) nY = 1; 
