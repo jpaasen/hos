@@ -1,7 +1,8 @@
 #include "ObservationArea.h"	
 
-Coordinate<uint> ObservationArea::nObsPoints() 
-{
+#include <stdexcept>
+
+Coordinate<uint> ObservationArea::nObsPoints() {
 	if (numObsPoints == 0) // number of obs points has not been calculated before (or it is 0)
 	{
 		// any how, we then do the calculations
@@ -24,13 +25,11 @@ Coordinate<uint> ObservationArea::nObsPoints()
 	return numObsPointsVec;
 }
 
-Coordinate<float> ObservationArea::areaSize()
-{
+Coordinate<float> ObservationArea::areaSize() {
 	return Coordinate<float>::subtract(maxLimits, minLimits);
 }
 
-uint ObservationArea::numelObsPoints()
-{
+uint ObservationArea::numelObsPoints() {
 	if (numObsPoints == 0)
 	{
 		Coordinate<uint> coord = nObsPoints();
@@ -40,15 +39,14 @@ uint ObservationArea::numelObsPoints()
 	return numObsPoints;
 }
 
-float* ObservationArea::getObsPoints() 
-{
-	if (obsPointsGPU == NULL) 
+float* ObservationArea::getObsPoints() {
+   if (obsPointsGPU.empty()) 
 	{
 		Coordinate<uint> n = nObsPoints();
 
 		uint numObs = n.reduceMul();
 
-		obsPointsGPU = (float*) malloc(numObs * sizeof(float) * 3);
+      obsPointsGPU.resize(numObs * 3);
 
 		for (uint i = 0; i < numObs; i++) 
 		{
@@ -58,26 +56,18 @@ float* ObservationArea::getObsPoints()
 		}
 	}
 
-	return obsPointsGPU;
+	return obsPointsGPU.data();
 }
 
-Coordinate<float> ObservationArea::getPosition(uint x, uint z, uint w, uint h) 
-{
+Coordinate<float> ObservationArea::getPosition(uint x, uint z, uint w, uint h) {
 	Coordinate<float> t = Coordinate<float>(x/float(w), 0, z/float(h));
 	return Coordinate<float>::elemlerp(maxLimits, minLimits, t);
 }
 
-void ObservationArea::createObsGrid()
-{
+void ObservationArea::createObsGrid() {
+
 	Coordinate<uint> n = nObsPoints();
-
-	size_t memSize = n.x * n.y * n.z * sizeof(Coordinate<float>);
-
-#ifdef _DEBUG
-	printf("Obs memsize: %d MB\n", memSize/1000000);
-#endif
-
-	obsPoints = (Coordinate<float>*) malloc(memSize);
+   obsPoints.resize(n.reduceMul());
 
 	float x = minLimits.x;
 	float y;
@@ -112,11 +102,14 @@ ObservationArea::ObservationArea(int dim,
 								 float resolution,
 								 float speedOfSound,
 								 bool resultOnGPU) 
-								 : dim(dim), minLimits(minL), maxLimits(maxL), resolution(resolution), speedOfSound(speedOfSound), resultOnGPU(resultOnGPU) 
-{
-	obsPoints = NULL;
-	obsPointsGPU = NULL;
-	d_res = NULL;
+								 : dim(dim), minLimits(minL), maxLimits(maxL), resolution(resolution), speedOfSound(speedOfSound), resultOnGPU(resultOnGPU) {
+#if defined(DISP_WITH_CPU)
+   if (resultOnGPU) {
+      throw std::runtime_error("ObservationArea can not be located on the GPU if DisplayResponseCPU is used.");
+   }
+#endif
+   
+   d_res_gpu = nullptr;
 
 	numObsPoints = 0;
 
@@ -125,43 +118,38 @@ ObservationArea::ObservationArea(int dim,
 	createResMem();
 }
 
-ObservationArea::~ObservationArea() 
-{
-	if (obsPoints) free(obsPoints);
-	if (obsPointsGPU) free(obsPointsGPU);
-	if (d_res) deleteResMem();
+ObservationArea::~ObservationArea() {
+	if (d_res_gpu) deleteResMem();
 }
 
-void ObservationArea::deleteResMem()
-{
-	if (d_res)
-	{
-		if (resultOnGPU) {
+void ObservationArea::deleteResMem() {
 #if defined(DISP_WITH_CUDA)
-			cudaFree(d_res);
+   if (resultOnGPU) {
+      if (d_res_gpu) {
+         cuUtilsSafeCall( cudaFree(d_res_gpu) );
+         d_res_gpu = nullptr;
+      }
+   }
 #endif
-		} else {
-			free(d_res);
-		}
-		d_res = NULL;
-	}
 }
 
-void ObservationArea::createResMem() 
-{
-	if (d_res) {
+void ObservationArea::createResMem() {
+	if (d_res_gpu) {
 		deleteResMem();
 	}
 	if (resultOnGPU) {
 #if defined(DISP_WITH_CUDA)
-		cuUtilsSafeCall( cudaMalloc<cuComplex>(&d_res, sizeof(cuComplex)*numelObsPoints()) );
+		cuUtilsSafeCall( cudaMalloc<cuComplex>(&d_res_gpu, sizeof(cuComplex)*numelObsPoints()) );
 #endif
 	} else {
-		d_res = (cuComplex*) malloc(sizeof(cuComplex)*numelObsPoints());
-	}
+      d_res.resize(numelObsPoints());
+   }
 }
 
-cuComplex* ObservationArea::getResMem()
-{
-	return d_res;
+cuComplex* ObservationArea::getResMem() {
+   if (resultOnGPU) {
+      return d_res_gpu;
+   } else {
+	   return d_res.data();
+   }
 }

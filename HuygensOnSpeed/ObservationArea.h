@@ -16,9 +16,9 @@
    #include "CudaUtils.h"
 #endif
 
-#include <stdlib.h>
 #include <math.h>
 #include <stdio.h>
+#include <vector>
 
 /**
 * Represent a discrete grid of field observation points.
@@ -26,20 +26,21 @@
 class ObservationArea 
 {
 private:
-	int dim;						// space dimension
-	Coordinate<float> minLimits;	// [minX minY minZ] extent in m
-	Coordinate<float> maxLimits;	// [maxX maxY maxZ] extent in m
-	float resolution;				// sampling points per m
-	Coordinate<float>* obsPoints;	// list of observation points
+	int dim;						                     // space dimension
+	Coordinate<float> minLimits;	               // [minX minY minZ] extent in m
+	Coordinate<float> maxLimits;	               // [maxX maxY maxZ] extent in m
+	float resolution;				                  // sampling points per m
+	std::vector< Coordinate<float> > obsPoints;	// list of observation points
 	float speedOfSound;
 
-	Coordinate<uint> numObsPointsVec;	// holding the number of obsPoints in x, y and z so that it is calculated only once for this object
-	uint numObsPoints;					// in the same way this holdes the total number of observation points
+	Coordinate<uint> numObsPointsVec;   // holding the number of obsPoints in x, y and z so that it is calculated only once for this object
+	uint numObsPoints;					   // in the same way this holdes the total number of observation points
 
-	float* obsPointsGPU;			// list of observation points suited for GPU kernel (coalesced memory reads)
+	std::vector<float> obsPointsGPU;	   // list of observation points suited for GPU kernel (coalesced memory reads)
 
-	cuComplex* d_res;				// memory to hold result
-	bool resultOnGPU;				// true if result are allocated in GPU memory
+   std::vector<cuComplex> d_res; // memory to hold result
+	cuComplex* d_res_gpu;			// memory to hold result in gpu memory
+	bool resultOnGPU;				   // true if result are allocated in GPU memory
 
 	void createObsGrid();
 
@@ -83,8 +84,7 @@ public:
 	Coordinate<float> getMaxLim() {return maxLimits;}
 
 	float getSpeedOfSound() {return speedOfSound;}
-	void setSpeedOfSound(float sos) 
-	{
+	void setSpeedOfSound(float sos) {
 		if (sos > 0)
 		{
 			this->speedOfSound = sos;

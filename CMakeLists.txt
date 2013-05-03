@@ -51,6 +51,13 @@ if (CALC_WITH_CUDA STREQUAL CUDA OR DISP_WITH STREQUAL CUDA)
       set(CUDA_NVCC_FLAGS "-use_fast_math")
       #set(CUDA_NVCC_FLAGS "-G") # for debugging gpu kernels 
    endif ()
+
+   set(CUDA_NVCC_FLAGS ${NVCC_FLAGS}
+      #-gencode arch=compute_11,code=\\\"compute_11,sm_11\\\"
+      #-gencode arch=compute_13,code=\\\"compute_13,sm_13\\\"
+      -gencode arch=compute_20,code=\\\"compute_20,sm_20\\\"
+      -gencode arch=compute_20,code=\\\"compute_20,sm_21\\\")
+
 else ()
    if ( UNIX )
       find_package(GLUT)
