@@ -8,14 +8,12 @@
 **/
 #pragma once
 
-#include <stdlib.h>
 #include <vector>
 #include <time.h>
 
 #include "Defines.h"
 #include "Coordinate.h"
 #include "ObservationArea.h"
-#include "Source.h"
 #include "IHuygensPrinciple.h"
 #include "PaintTool.h"
 #include "HuygensCuComplex.h"
@@ -171,11 +169,10 @@ public:
 	// MOVE THESE functions to the GPU-version of the simulator 
 	// get float* to list of sources. Format: [x1 x2 ... xn y1 y2 ... yn z1 z2 ... zn]
 	// Might change to using float3. Matlab does not support float3 in kernels. 
-	float* convertSourceList() 
-	{
+	void convertSourceList(std::vector<float> &newSourceList) {
 		int n = totalNumberOfPointSources;
 
-		float* newSourceList = (float*) malloc(sizeof(float)*3*n);
+      newSourceList.resize(3*n);
 
 		uint k = 0;
 
@@ -194,13 +191,12 @@ public:
 
 			delete sourceCoord;
 		}
-		return newSourceList;
 	}
 
 	// TODO: Move to the GPU-version of the simulator
-	float* getFreqList()
-	{
-		float* freqList = (float*) malloc(sizeof(float)*totalNumberOfPointSources);
+	void getFreqList(std::vector<float> &freqList) {
+
+		freqList.resize(totalNumberOfPointSources);
 
 		uint n = (uint) sourceList.size();
 		uint k = 0;
@@ -218,14 +214,12 @@ public:
 
 			delete srcFreq;
 		}
-
-		return freqList;
 	}
 
 	// TODO: Move to the GPU-version of the simulator
-	float* getApodList()
-	{
-		float* apodList = (float*) malloc(sizeof(float)*totalNumberOfPointSources);
+	void getApodList(std::vector<float> &apodList) {
+		
+      apodList.resize(totalNumberOfPointSources);
 
 		uint n = (uint) sourceList.size();
 		uint k = 0;
@@ -243,13 +237,12 @@ public:
 
 			delete srcApod;
 		}
-		return apodList;
 	}
 
 	// TODO: Move to the GPU-version of the simulator
-	float* getTimeDelayList()
-	{
-		float* timeDelayList = (float*) malloc(sizeof(float)*totalNumberOfPointSources);
+	void getTimeDelayList(std::vector<float> &timeDelayList) {
+      
+      timeDelayList.resize(totalNumberOfPointSources);
 
 		uint n = (uint) sourceList.size();
 		uint k = 0;
@@ -265,14 +258,12 @@ public:
 			}
 			delete srcTimeDelay;
 		}
-
-		return timeDelayList;
 	}
 
 	// TODO: Move to the GPU-version of the simulator
-	float* getTimeStampList()
-	{
-		float* timeStampList = (float*) malloc(sizeof(float)*totalNumberOfPointSources);
+	void getTimeStampList(std::vector<float> &timeStampList) {
+		
+      timeStampList.resize(totalNumberOfPointSources);
 
 		uint n = (uint) sourceList.size();
 		uint k = 0;
@@ -288,13 +279,12 @@ public:
 			}
 			delete srcTimeStamp;
 		}
-		return timeStampList;
 	}
 
 	// TODO: Move to the GPU-version of the simulator
-	uint* getPulseLengthList()
-	{
-		uint* pulsLengthList = (uint*) malloc(sizeof(uint)*totalNumberOfPointSources);
+	void getPulseLengthList(std::vector<uint> &pulsLengthList) {
+		
+      pulsLengthList.resize(totalNumberOfPointSources);
 
 		uint n = (uint) sourceList.size();
 		uint k = 0;
@@ -310,7 +300,6 @@ public:
 			}
 			delete srcPulseLength;
 		}
-		return pulsLengthList;
 	}
 
 

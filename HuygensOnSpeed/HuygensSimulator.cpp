@@ -15,8 +15,7 @@
 	return huygen->calcFieldResponse(obsArea, sourceList, currentTime);
 }*/
 
-void HuygensSimulator::calcSimulation(ObservationArea *obsArea)
-{
+void HuygensSimulator::calcSimulation(ObservationArea *obsArea) {
 
 	clock_t newCPUTime = currentCPUTime;
 
@@ -49,35 +48,32 @@ void HuygensSimulator::calcSimulation(ObservationArea *obsArea)
 
 		cpuTimeBeforeCalculation = clock();
 
-		float* coordSrc = convertSourceList();
-		float* fSrc = getFreqList();
-		float* apodSrc = getApodList();
-		float* steerFocusDelaySrc = getTimeDelayList();
-		float* srcTimeStamp = getTimeStampList();
-		uint* srcPulseLength = getPulseLengthList();
+      std::vector<float> coordSrc;
+      convertSourceList(coordSrc);
+		std::vector<float> fSrc;
+      getFreqList(fSrc);
+		std::vector<float> apodSrc;
+      getApodList(apodSrc);
+		std::vector<float> steerFocusDelaySrc;
+      getTimeDelayList(steerFocusDelaySrc);
+		std::vector<float> srcTimeStamp;
+      getTimeStampList(srcTimeStamp);
+		std::vector<uint> srcPulseLength;
+      getPulseLengthList(srcPulseLength);
 
 		huygen->calcFieldResponse(
 			observationSpace->getResMem(),
 			observationSpace->numelObsPoints(), observationSpace->getObsPoints(),
-			(uint)sourceList.size(), coordSrc, 
-			fSrc, apodSrc, steerFocusDelaySrc, srcTimeStamp, srcPulseLength,
+			(uint)sourceList.size(), coordSrc.data(), 
+			fSrc.data(), apodSrc.data(), steerFocusDelaySrc.data(), srcTimeStamp.data(), srcPulseLength.data(),
 			this->currentTime, this->currentTime, 
 			observationSpace->getSpeedOfSound(), observationSpace->resultIsOnGPU());
 
 		cpuTimeAfterCalculation = clock();
-
-		free((void *)coordSrc);
-		//free((void *)coordObs); // this one is now cleaned up by the observation object
-		free((void *)fSrc);
-		free((void *)apodSrc);
-		free((void *)steerFocusDelaySrc);
-		free((void *)srcTimeStamp);
-		free((void *)srcPulseLength);
 	}
 }
 
-void HuygensSimulator::updateSourceFrequencies(const float& f)
-{
+void HuygensSimulator::updateSourceFrequencies(const float& f) {
 
 	size_t s = sourceList.size();
 	std::vector<float> fVector;

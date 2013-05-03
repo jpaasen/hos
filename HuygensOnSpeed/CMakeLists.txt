@@ -1,5 +1,5 @@
 
-add_library(HuygensOnSpeed HuygensSimulator.cpp ObservationArea.cpp PaintTool.cpp PointSource.cpp Source.cpp)
+add_library(HuygensOnSpeed HuygensSimulator.cpp ObservationArea.cpp PaintTool.cpp PointSource.cpp)
 
 add_library(HuygensCuComplex HuygensCuComplex.cpp)
 target_link_libraries(HuygensOnSpeed HuygensCuComplex)
