@@ -77,7 +77,7 @@ void DisplayResponseCPU::normalize(uint* output, float* values, float minValue, 
          if (t > 1.0f) t = 1.0f;
          if (t < 0.0f) t = 0.0f;
 
-         const uint color = (uint((1.0f - t)*colorLow) + uint(t*colorHigh));
+         const uint color = static_cast<uint>(floor((1.0f - t)*colorLow + 0.5) + floor(t*colorHigh + 0.5));
 
          //			 alpha			   blue			  green		  red
          output[x*obsW + y] = 0xff000000 | (color << 16) | (color << 8) | color;
