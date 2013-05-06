@@ -47,9 +47,11 @@ Valid combinations are:
 ########################
 # Info for Linux users #
 ########################
-Remember to have libGL, libGlew and libglut in lib/linker path.
+Remember to have libGL, libGlew, libGLU and libglut in lib/linker path.
 To grab glew use: sudo apt-get install libglew1.6-dev
-The other two is usually install together with CUDA. 
+To grab glu use: sudo apt-get install libglu1-mesa-dev
+The other two is usually install together with CUDA.
+To se if you have a lib installed use: apt-file search <libGLU> 
 
 
 ##########################
