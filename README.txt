@@ -43,6 +43,8 @@ Valid combinations are:
  - CALC_WITH="CUDA" and DISP_WITH="CUDA" 
  - CALC_WITH="CPU" and DISP_WITH="CUDA"
  - CALC_WITH="CPU" and DISP_WITH="CPU"
+Command line example:  
+>> cmake .. -DCALC_WITH="CPU" -DDISP_WITH="CPU"
 
 ########################
 # Info for Linux users #
