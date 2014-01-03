@@ -8,6 +8,8 @@
 **/
 #pragma once
 
+#include <cmath>
+
 /**
 * Template for 3D coordinate 
 * Defines a set of functions for operating on 3D coordinates/vectors
