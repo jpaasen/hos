@@ -62,6 +62,17 @@ To se if you have a lib installed use: apt-file search <libGLU>
 Generate solution file using cmake.
 Project dependencies (libs) are found in the CUDA Toolkit and SDK if CALC_WITH="CUDA" or DISP_WITH="CPU" and should be located automatically by cmake. If both CALC_WITH and DISP_WITH is "CPU", project uses files found in the local include and lib folder.
 
+######################
+# Info for Mac users #
+######################
+Same build instructions as for linux: mkdir build; cd build; cmake ..; make
+
+Only the CPU-version have been tested so far.
+
+I had to install glew in order to make it run.
+> brew install glew
+If you don't have brew you can get it here: http://brew.sh
+Or just paste the following line in the terminal: ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
 
 #############
 # Projects: #
