@@ -7,6 +7,9 @@
 # GLEW_LIBRARY
 # 
 
+find_package(PkgConfig)
+pkg_check_modules(PC_GLEW QUIET glew)
+
 IF (WIN32)
 	FIND_PATH( GLEW_INCLUDE_PATH GL/glew.h
 		${PROJECT_SOURCE_DIR}/include
@@ -19,6 +22,8 @@ IF (WIN32)
 		$ENV{PROGRAMFILES}/GLEW/lib
 		${PROJECT_SOURCE_DIR}/src/nvgl/glew/bin
 		${PROJECT_SOURCE_DIR}/src/nvgl/glew/lib
+		${PC_GLEW_LIBDIR} 
+		${PC_GLEW_LIBRARY_DIRS}
 		DOC "The GLEW library")
 ELSE (WIN32)
 	FIND_PATH( GLEW_INCLUDE_PATH GL/glew.h
@@ -37,8 +42,13 @@ ELSE (WIN32)
 		/usr/local/lib
 		/sw/lib
 		/opt/local/lib
+		${PC_GLEW_LIBDIR} 
+		${PC_GLEW_LIBRARY_DIRS}
 		DOC "The GLEW library")
 ENDIF (WIN32)
+
+set(GLEW_INCLUDE_DIRS ${GLEW_INCLUDE_DIR})
+set(GLEW_LIBRARIES ${GLEW_LIBRARY})
 
 IF (GLEW_INCLUDE_PATH)
 	SET( GLEW_FOUND 1 CACHE STRING "Set to 1 if GLEW is found, 0 otherwise")
