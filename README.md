@@ -3,6 +3,8 @@ HOS - Huygens On Speed
 
 GPU-based ultrasound field simulator with interactive user interface.
 
+Homepage: http://heim.ifi.uio.no/jpaasen/huygens/
+
 Released under the GPL license.
 
 #############################################
