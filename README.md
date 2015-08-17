@@ -5,9 +5,6 @@ GPU-based ultrasound field simulator with interactive user interface.
 
 Released under the GPL license.
 
-Info and build instructions
-===========================
-
 #############################################
 # What do you need to make it run on speed? #
 #############################################
