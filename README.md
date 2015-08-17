@@ -56,7 +56,6 @@ Or just paste the following line in the terminal: `ruby -e "$(curl -fsSL https:/
 Have to force close the application (`ctrl + z` in the terminal and right-klick + force quit on the ui icon)
 
 ## Info about the projects
-(A bit outdated)
 
 ### HuygensOnSpeed
 This includes the simulator code and data structures for point sources, observation points, Paint tools and etc. It includes both a GPU and CPU implementation. For display, a CUDA-OpenGL binding is used. Now there is also a display class for CPU and OpenGL only.
