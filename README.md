@@ -12,11 +12,11 @@ Released under the GPL license.
 
 ## Build with cmake and make
 1. Create "build" folder
-2. Enter build folder and type: `>> cmake ..`
-3. Then make the project with: `>> make`
-4. Run program with: `>> ./HuygensOnSpeedGlutApp/HuygensOnSpeedApp`
+2. Enter build folder and type: `> cmake ..`
+3. Then make the project with: `> make`
+4. Run program with: `> ./HuygensOnSpeedGlutApp/HuygensOnSpeedApp`
 
-Or short: `>> cmake .. ; make ; ./HuygensOnSpeedGlutApp/HuygensOnSpeedApp`
+Or short: `> cmake .. ; make ; ./HuygensOnSpeedGlutApp/HuygensOnSpeedApp`
 
 ## Build with cmake and Visual Studio
 1. Generate Visual Studio 20XY solution file using cmake in terminal or GUI.
@@ -30,7 +30,7 @@ Valid combinations are:
  - `CALC_WITH="CPU"` and `DISP_WITH="CUDA"`
  - `CALC_WITH="CPU"` and `DISP_WITH="CPU"`
 Command line example:  
-`>> cmake .. -DCALC_WITH="CPU" -DDISP_WITH="CPU"`
+`> cmake .. -DCALC_WITH="CPU" -DDISP_WITH="CPU"`
 
 ## Info
 ### Info for Linux users
@@ -48,7 +48,7 @@ Project dependencies (libs) are found in the CUDA Toolkit and SDK if `CALC_WITH=
 Same build instructions as for linux: `mkdir build; cd build; cmake ..; make`
 
 Glew have to be install to make it run.
-`>> brew install glew`
+`> brew install glew`
 If you don't have brew you can get it [here](http://brew.sh)
 Or just paste the following line in the terminal: `ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"`
 
