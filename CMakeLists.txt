@@ -48,15 +48,23 @@ if (CALC_WITH_CUDA STREQUAL CUDA OR DISP_WITH STREQUAL CUDA)
       set(CUDA_NVCC_FLAGS "-use_fast_math")
       #set(CUDA_NVCC_FLAGS "-G0") # for debugging gpu kernels 
    else()
+      if ( UNIX )
+         if (APPLE)
+            find_package(OpenGL)
+            link_directories(${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY})
+         endif ()
+      endif ()
       set(CUDA_NVCC_FLAGS "-use_fast_math")
       #set(CUDA_NVCC_FLAGS "-G") # for debugging gpu kernels 
    endif ()
 
    set(CUDA_NVCC_FLAGS ${NVCC_FLAGS}
-      #-gencode arch=compute_11,code=\\\"compute_11,sm_11\\\"
-      #-gencode arch=compute_13,code=\\\"compute_13,sm_13\\\"
-      -gencode arch=compute_20,code=\\\"compute_20,sm_20\\\"
-      -gencode arch=compute_20,code=\\\"compute_20,sm_21\\\")
+      -res-usage
+      #-gencode arch=compute_11,code=\\\"sm_11\\\" # Not supported anymore
+      #-gencode arch=compute_13,code=\\\"sm_13\\\" # Not supported anymore
+      -gencode arch=compute_20,code=\\\"sm_20,sm_21\\\"
+      -gencode arch=compute_30,code=\\\"sm_30,sm_35,sm_37\\\"
+      -gencode arch=compute_50,code=\\\"sm_50,sm_52\\\")
 
 else ()
    if ( UNIX )
@@ -64,8 +72,6 @@ else ()
          find_package(OpenGL)
          link_directories(${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY})
       endif ()
-      find_package(GLUT)
-      find_package(GLEW)
    elseif ( WIN32 )
       if (CMAKE_CL_64)
 	     link_directories("${CMAKE_CURRENT_SOURCE_DIR}/lib/x64")
@@ -82,7 +88,7 @@ add_subdirectory( HuygensOnSpeedGlutApp )
 # Uncomment to see cmake variables
 #get_cmake_property(_variableNames VARIABLES)
 #foreach (_variableName ${_variableNames})
-#message(STATUS "${_variableName}=${${_variableName}}")
+#   message(STATUS "${_variableName}=${${_variableName}}")
 #endforeach()
 
 

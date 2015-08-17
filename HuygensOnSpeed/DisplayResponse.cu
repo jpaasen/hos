@@ -70,12 +70,12 @@ void DisplayResponse::mapResponseToDisplay(const cuComplex* result, const unsign
 	//cuUtilsSafeCall( cudaThreadSynchronize() );
 
 	// Find maximum and minimum using CUBLAS .
-	//cublasInit();
 	cublasStatus_t stat;
 	cublasHandle_t handle;
 	stat = cublasCreate(&handle);
 	if (stat != CUBLAS_STATUS_SUCCESS) {printf("CUBLAS init failed (error %d)\n", stat); return;}
 
+	
 	int maxValIdx = 1;
 	stat = cublasIsamax(handle, n, abs_buffer, 1, &maxValIdx);
 	if (stat != CUBLAS_STATUS_SUCCESS) {printf("CUBLAS: Finding max failed (error %d)\n", stat); return;}
@@ -83,22 +83,21 @@ void DisplayResponse::mapResponseToDisplay(const cuComplex* result, const unsign
 	int minValIdx = 1;
 	stat = cublasIsamin(handle, n, abs_buffer, 1, &minValIdx);
 	if (stat != CUBLAS_STATUS_SUCCESS) {printf("CUBLAS: Finding min failed (error %d)\n", stat); return;}
-
+	
 	maxValIdx -= 1; // CUBLAS uses Fortran indexing (1,2,3,...,n)
 	minValIdx -= 1;
 	
-	//cublasShutdown();
 	cublasDestroy(handle);
 
 	// copy max value to constant memory (defined in DisplayKernel.cu)
-#if CUDA_VERSION == 5000
+#if CUDA_VERSION >= 5000
    cuUtilsSafeCall( cudaMemcpyToSymbol(maxValue, &abs_buffer[maxValIdx], sizeof(float), 0, cudaMemcpyDeviceToDevice) );
    cuUtilsSafeCall( cudaMemcpyToSymbol(minValue, &abs_buffer[minValIdx], sizeof(float), 0, cudaMemcpyDeviceToDevice) );
 #else
    cuUtilsSafeCall( cudaMemcpyToSymbol("maxValue", &abs_buffer[maxValIdx], sizeof(float), 0, cudaMemcpyDeviceToDevice) );
    cuUtilsSafeCall( cudaMemcpyToSymbol("minValue", &abs_buffer[minValIdx], sizeof(float), 0, cudaMemcpyDeviceToDevice) );
 #endif
-   
+	
 	if (!resultOnGPU) {
 		cuUtilsSafeCall( cudaFree(result2) );
 	}
