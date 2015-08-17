@@ -86,6 +86,7 @@ Functionality for calling HuygensOnSpeed from Matlab.
 ### Build instructions
 See own Readme file in sub folder. Building mex-interface has only been tested on windows 7 64bit.
 
-Have fun!
+
+## Author 
 Jon Petter Åsen - jon.p.asen@ntnu.no
 
