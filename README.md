@@ -6,6 +6,8 @@ Homepage: http://heim.ifi.uio.no/jpaasen/huygens/
 
 Released under the GPL license.
 
+Now there is also a WebGL-implmentation of this simulator. You can find it [here](https://github.com/jpaasen/hos-webgl).
+
 ## What do you need to make it run on speed?
 - [CUDA capable GPU](https://developer.nvidia.com/cuda-gpus)
 - [CUDA Toolkit 3.2 or greater](https://developer.nvidia.com/cuda-downloads)
